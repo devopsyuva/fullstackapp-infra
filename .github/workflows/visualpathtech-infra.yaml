@@ -106,6 +106,7 @@ jobs:
         run: |
           echo `pwd`
           cd db/
+          export TF_VAR_db_admin_password="$env:PSQL_PASSWORD" 
           echo "DB: Initialize Terraform"
           terraform init
 
@@ -120,6 +121,8 @@ jobs:
 
           echo "DB: Running terraform apply to create DB network"
           terraform apply -auto-approve
+        env:
+          PSQL_PASSWORD: ${{ secrets.PSQL_ADMIN_PASSWORD }}
       
       - name: Destroy PostgreSQL DB for VisualpathTech Production environment
         if: contains(github.event.head_commit.message, 'terraform_destroy db')
