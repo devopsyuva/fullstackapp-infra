@@ -63,7 +63,7 @@ jobs:
           terraform apply -auto-approve
       
       - name: Destroy VPC network for VisualpathTech Production environment
-        if: contains(github.event.head_commit.message, 'terraform_destroy vpc')
+        if: ${{ contains(github.event.head_commit.message, 'terraform_destroy vpc') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
         run: |
           cd vpc/
           echo 'Run destroy plan'
@@ -125,7 +125,7 @@ jobs:
           PSQL_PASSWORD: ${{ secrets.PSQL_ADMIN_PASSWORD }}
       
       - name: Destroy PostgreSQL DB for VisualpathTech Production environment
-        if: contains(github.event.head_commit.message, 'terraform_destroy db')
+        if: ${{ contains(github.event.head_commit.message, 'terraform_destroy db') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
         run: |
           cd db/
           echo 'DB: Run destroy plan'
@@ -183,7 +183,7 @@ jobs:
           terraform apply -auto-approve
       
       - name: Destroy ALB and ASG for VisualpathTech Production environment
-        if: contains(github.event.head_commit.message, 'terraform_destroy infra')
+        if: ${{ contains(github.event.head_commit.message, 'terraform_destroy infra') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
         run: |
           cd infra-prod/
           echo 'ALB and ASG: Run destroy plan'
