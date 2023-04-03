@@ -60,3 +60,13 @@ jobs:
 
           echo "VPC: Running terraform apply to create VPC network"
           terraform apply -auto-approve
+      
+      - name: Destroy VPC network for VisualpathTech Production environment
+        if: contains(github.event.head_commit.message, 'terraform_destroy vpc')
+        run: |
+          cd vpc/
+          echo 'Run destroy plan'
+          terraform plan -destroy
+
+          echo "Destroy VPC network"
+          terraform destroy -auto-approve
