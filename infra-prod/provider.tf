@@ -18,7 +18,4 @@ terraform {
 provider "aws" {
   # Configuration options
   region  = var.aws_region
-  assume_role {
-    role_arn = "arn:aws:iam::099730796456:role/VisualpathTech"
-  }
 }
