@@ -1,4 +1,4 @@
-resource "aws_db_instance" "default" {
+resource "aws_db_instance" "psql_instance" {
   allocated_storage       = var.min_storage
   max_allocated_storage   = var.max_storage
   db_name                 = var.db_instance_name
