@@ -50,7 +50,7 @@ jobs:
           terraform init
 
           echo "VPC: Format terraform configuration files"
-          terraform fmt -check || exit 0
+          terraform fmt
 
           echo "VPC: validate terraform configuration files"
           terraform validate
