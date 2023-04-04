@@ -45,7 +45,17 @@ jobs:
       - name: Destroy Infra for VisualpathTech Production environment
         if: ${{ contains(github.event.head_commit.message, 'terraform_destroy infra') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
         run: |
+          echo `pwd`
           cd infra-prod/
+          echo "ALB and ASG: Initialize Terraform"
+          terraform init
+
+          echo "ALB and ASG: Format terraform configuration files"
+          terraform fmt
+
+          echo "ALB and ASG: validate terraform configuration files"
+          terraform validate
+
           echo 'Infra: Run destroy plan'
           terraform plan -destroy
 
@@ -85,7 +95,18 @@ jobs:
       - name: Destroy PostgreSQL DB for VisualpathTech Production environment
         if: ${{ contains(github.event.head_commit.message, 'terraform_destroy db') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
         run: |
+          echo `pwd`
           cd db/
+          export TF_VAR_db_admin_password="$env:PSQL_PASSWORD" 
+          echo "DB: Initialize Terraform"
+          terraform init
+
+          echo "DB: Format terraform configuration files"
+          terraform fmt
+
+          echo "DB: validate terraform configuration files"
+          terraform validate
+
           export TF_VAR_db_admin_password="$env:PSQL_PASSWORD"
           echo 'DB: Run destroy plan'
           terraform plan -destroy
@@ -127,7 +148,17 @@ jobs:
       - name: Destroy VPC network for VisualpathTech Production environment
         if: ${{ contains(github.event.head_commit.message, 'terraform_destroy vpc') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
         run: |
+          echo `pwd`
           cd vpc/
+          echo "VPC: Initialize Terraform"
+          terraform init
+
+          echo "VPC: Format terraform configuration files"
+          terraform fmt
+
+          echo "VPC: validate terraform configuration files"
+          terraform validate
+
           echo 'VPC: Run destroy plan'
           terraform plan -destroy
 
