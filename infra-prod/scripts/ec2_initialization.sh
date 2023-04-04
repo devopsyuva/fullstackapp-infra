@@ -1,10 +1,10 @@
 #!/bin/bash -xe
 
 # update apt index and upgrade all packages to latest version
-apt update && apt upgrade -y
+sudo apt update && sudo apt upgrade -y
 
 # Install basic packages for Nodejs and Reactjs application
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
 # Check NodeJS version
@@ -56,16 +56,16 @@ WxeyNjZRKOgxOJAAAAFmR1YmFzQFN1ZGhhbXNSZWRkeUR1YmEBAgME
 -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
 
 # clone repo for backend application
-ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git'
-ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git'
+sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git'
+sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git'
 
-cd vpt-elearning-back-end/
+cd /home/ubuntu/vpt-elearning-back-end/
 
 # Install NodesJS packages
 npm install 2>/dev/null
 
 
-cd ../vpt-elearning-front-end/
+cd /home/ubuntu/vpt-elearning-front-end/
 
 # Install ReactJS packages
 npm install 2>/dev/null
