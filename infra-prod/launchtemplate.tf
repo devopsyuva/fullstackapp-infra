@@ -37,6 +37,7 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
 
   network_interfaces {
     associate_public_ip_address = false
+    security_groups = [ aws_security_group.alb_sg.id, aws_security_group.rjs_app_sg.id ]
   }
 
   key_name = var.app_keypair
