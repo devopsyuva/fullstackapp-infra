@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 # update apt index and upgrade all packages to latest version
-sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
 
 # Install basic packages for Nodejs and Reactjs application
 sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -55,21 +55,22 @@ HCAz1UUJyhbVEe7F4bVoZpgdJsQulANQj4lYM4/vMC7AQsm6trNNrjcHEz/VKE9c9j+B+R
 WxeyNjZRKOgxOJAAAAFmR1YmFzQFN1ZGhhbXNSZWRkeUR1YmEBAgME
 -----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
 
+sudo chmod 400 ~/.ssh/id_rsa
+
 # clone repo for backend application
 sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git'
 sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git'
 
-cd /home/ubuntu/vpt-elearning-back-end/
+cd /root/vpt-elearning-back-end/
 
 # Install NodesJS packages
 npm install 2>/dev/null
 
 
-cd /home/ubuntu/vpt-elearning-front-end/
+cd /root/vpt-elearning-front-end/
 
 # Install ReactJS packages
 npm install 2>/dev/null
-cd /home/ubuntu
 
 sudo echo "[Unit]
 Description=Nodejs Visualpath Project
@@ -109,7 +110,7 @@ WantedBy=multi-user.target" > /etc/systemd/system/reactjsprod.service
 sudo apt update
 sudo apt install -y ruby-full
 sudo apt install -y wget
-cd /home/ubuntu
+
 wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
 chmod +x ./install
 sudo ./install auto > /tmp/codedeploy_agent_logfile
