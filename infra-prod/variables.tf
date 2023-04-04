@@ -6,8 +6,8 @@ variable "aws_region" {
 
 variable "asg_name" {
   description = "Provide name for ASG to implement VisualpathTech app"
-  type = string
-  default = "tech-asg"
+  type        = string
+  default     = "tech-asg"
 }
 
 variable "template_name" {

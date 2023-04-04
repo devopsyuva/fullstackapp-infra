@@ -37,7 +37,7 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
 
   key_name = var.app_keypair
 
-  user_data = base64encode("scripts/ec2_initialization.sh") #TODO: filebase64("path")
+  user_data = filebase64("scripts/ec2_initialization.sh") #base64encode("scripts/ec2_initialization.sh")
 
   iam_instance_profile {
     arn = aws_iam_instance_profile.tech_profile.arn
