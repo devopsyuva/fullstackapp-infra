@@ -4,6 +4,12 @@ variable "aws_region" {
   default     = "ap-south-1"
 }
 
+variable "asg_name" {
+  description = "Provide name for ASG to implement VisualpathTech app"
+  type = string
+  default = "tech-asg"
+}
+
 variable "template_name" {
   description = "Provide name that to be assigned launch template"
   type        = string
