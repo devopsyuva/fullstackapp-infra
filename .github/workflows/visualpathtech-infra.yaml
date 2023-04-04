@@ -19,6 +19,7 @@ jobs:
   terraform-vpc:
     name: VPC network
     
+    if: ${{ contains(github.event.head_commit.message, 'terraform_apply vpc') || contains(github.event.head_commit.message, 'terraform_apply all') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -64,7 +65,7 @@ jobs:
 
   terraform-db:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
-    if: ${{ success() }}
+    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply db') || contains(github.event.head_commit.message, 'terraform_apply all') }}
     needs: [terraform-vpc]
     
     name: PostgreSQL RDS
@@ -115,7 +116,7 @@ jobs:
           PSQL_PASSWORD: ${{ secrets.PSQL_ADMIN_PASSWORD }}
 
   terraform-infra:
-    if: ${{ success() }}
+    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply infra') || contains(github.event.head_commit.message, 'terraform_apply all') }}
     needs: [terraform-vpc, terraform-db]
 
     name: VisualpathTech Infra

@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "Region on which to host Visualpath Tech application"
   type        = string
-  default     = "ap-south-2"
+  default     = "ap-south-1"
 }
 
 variable "template_name" {
