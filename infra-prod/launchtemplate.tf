@@ -35,6 +35,10 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
     }
   }
 
+  network_interfaces {
+    associate_public_ip_address = false
+  }
+
   key_name = var.app_keypair
 
   user_data = base64encode("scripts/ec2_initialization.sh") #TODO: filebase64("path")
