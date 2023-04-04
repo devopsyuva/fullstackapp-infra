@@ -39,6 +39,10 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
 
   user_data = "${base64encode("scripts/ec2_initialization.sh")}" #TODO: filebase64("path")
 
+  iam_instance_profile {
+    arn = aws_iam_instance_profile.tech_profile.arn
+  }
+
   tags = merge(
     local.common_tags,
     {
