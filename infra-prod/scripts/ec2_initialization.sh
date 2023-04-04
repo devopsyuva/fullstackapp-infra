@@ -53,4 +53,53 @@ tI9niR22eJ1+VQKFyzep+rVk15s2XlKB6qn/kA2k1/WetUcqf5Bhfqjvp660kWJPTe/S2B
 tOSh4jr3FN/MDrgb7SWecP8A8hmtu7ctOYx31l3tLp/Gv50oZqMqGUEx+MSNsaC5ArBT/2
 HCAz1UUJyhbVEe7F4bVoZpgdJsQulANQj4lYM4/vMC7AQsm6trNNrjcHEz/VKE9c9j+B+R
 WxeyNjZRKOgxOJAAAAFmR1YmFzQFN1ZGhhbXNSZWRkeUR1YmEBAgME
------END OPENSSH PRIVATE KEY----- > ~/.ssh/id_rsa
+-----END OPENSSH PRIVATE KEY-----" > ~/.ssh/id_rsa
+
+# clone repo for backend application
+ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git'
+ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git'
+
+cd vpt-elearning-back-end/
+
+# Install NodesJS packages
+npm install 2>/dev/null
+
+
+cd ../vpt-elearning-front-end/
+
+# Install ReactJS packages
+npm install 2>/dev/null
+cd /home/ubuntu
+
+sudo echo "[Unit]
+Description=Nodejs Visualpath Project
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/npm --prefix /home/ubuntu/vpt-elearning-back-end start
+User=ubuntu
+Environment=NODE_ENV=development
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/nodejsprod.service
+
+sudo echo "[Unit]
+Description=Reactjs Visualpath Project
+After=syslog.target network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/npm --prefix /home/ubuntu/vpt-elearning-front-end start
+User=ubuntu
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/reactjsprod.service
