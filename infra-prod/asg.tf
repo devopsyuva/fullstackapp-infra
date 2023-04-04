@@ -8,16 +8,16 @@ data "aws_subnet_ids" "private_subnets" {
 
 resource "aws_autoscaling_group" "visualtech_asg" {
   vpc_zone_identifier = data.aws_subnet_ids.private_subnets.ids
-  desired_capacity   = 1
-  max_size           = 3
-  min_size           = 1
+  desired_capacity    = 1
+  max_size            = 3
+  min_size            = 1
 
   launch_template {
     id      = aws_launch_template.visualtech_launchtemplate.id
-    version = "${aws_launch_template.visualtech_launchtemplate.latest_version}"
+    version = aws_launch_template.visualtech_launchtemplate.latest_version
   }
 
-  target_group_arns = [ aws_lb_target_group.alb_targetgroup.arn ]
+  target_group_arns = [aws_lb_target_group.alb_targetgroup.arn]
 
   wait_for_capacity_timeout = "300s"
 }

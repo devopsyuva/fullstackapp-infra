@@ -26,7 +26,7 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
   }
 
   vpc_security_group_ids = [aws_security_group.rjs_app_sg.id]
-  
+
   tag_specifications {
     resource_type = "instance"
 
@@ -37,7 +37,7 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
 
   key_name = var.app_keypair
 
-  user_data = "${base64encode("scripts/ec2_initialization.sh")}" #TODO: filebase64("path")
+  user_data = base64encode("scripts/ec2_initialization.sh") #TODO: filebase64("path")
 
   iam_instance_profile {
     arn = aws_iam_instance_profile.tech_profile.arn

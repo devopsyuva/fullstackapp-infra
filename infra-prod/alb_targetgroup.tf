@@ -5,7 +5,7 @@ data "aws_vpc" "tech_vpc" {
 }
 
 resource "aws_lb_target_group" "alb_targetgroup" {
-  name                          = "${var.alb_targetgroup_name}"
+  name                          = var.alb_targetgroup_name
   port                          = 3000
   protocol                      = "HTTP"
   target_type                   = "instance"

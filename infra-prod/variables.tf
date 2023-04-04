@@ -46,6 +46,30 @@ variable "app_sg_name" {
   default     = "VisualpathTech-APP-sg"
 }
 
+variable "instance_profile_role" {
+  description = "Provide IAM porfile role name"
+  type        = string
+  default     = "tech-profile"
+}
+
+variable "instance_profile_policy" {
+  description = "Provide Profile policy name"
+  type        = string
+  default     = "techprofile-policy"
+}
+
+variable "instance_profile" {
+  description = "Provide Instance profile name"
+  type        = string
+  default     = "tech-profile"
+}
+
+variable "codedeploy_role_name" {
+  description = "Provide IAM role name for codedeploy"
+  type        = string
+  default     = "visualpathtech-codedeploy"
+}
+
 locals {
   common_tags = {
     Environment = "Production",
