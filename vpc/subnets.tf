@@ -17,7 +17,7 @@ resource "aws_subnet" "private_subnet" {
   count                   = length(local.private_subnets)
   vpc_id                  = aws_vpc.eks_vpc.id
   cidr_block              = element(values(local.private_subnets), count.index)
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   availability_zone       = element(keys(local.private_subnets), count.index)
 
   tags = merge(
