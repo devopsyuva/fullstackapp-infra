@@ -103,3 +103,16 @@ StandardError=syslog
 
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/reactjsprod.service
+
+# Install the CodeDeploy agent on Ubuntu Server
+# Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
+sudo apt update
+sudo apt install -y ruby-full
+sudo apt install -y wget
+cd /home/ubuntu
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto > /tmp/codedeploy_agent_logfile
+
+sudo systemctl enable codedeploy-agent
+sudo systemctl start codedeploy-agent
