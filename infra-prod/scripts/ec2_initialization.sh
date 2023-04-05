@@ -78,6 +78,7 @@ npm install 2>/dev/null
 cd /root/vpt-elearning-front-end/
 
 # Install ReactJS packages
+npm install node-sass --ignore-scripts
 npm install 2>/dev/null
 
 sudo echo "[Unit]
