@@ -1,5 +1,8 @@
 #!/bin/bash -xe
 
+# Disable Kernel package upgarde which will be done manually
+echo $(dpkg -l | grep "linux-image-$(uname -r)*" | awk '{print $2}') hold | dpkg --set-selections
+
 # update apt index and upgrade all packages to latest version
 sudo apt update -qq && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -qq -y
 
@@ -57,6 +60,8 @@ WxeyNjZRKOgxOJAAAAFmR1YmFzQFN1ZGhhbXNSZWRkeUR1YmEBAgME
 
 sudo chmod 400 ~/.ssh/id_rsa
 
+sudo ssh-keyscan github.com >> .ssh/known_hosts
+
 # clone repo for backend application
 sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git'
 sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git'
@@ -80,7 +85,7 @@ After=syslog.target network.target
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/npm --prefix /home/ubuntu/vpt-elearning-back-end start
+ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-back-end start
 User=ubuntu
 Environment=NODE_ENV=development
 StandardOutput=syslog
@@ -97,7 +102,7 @@ After=syslog.target network.target
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/npm --prefix /home/ubuntu/vpt-elearning-front-end start
+ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-front-end start
 User=ubuntu
 StandardOutput=syslog
 StandardError=syslog
