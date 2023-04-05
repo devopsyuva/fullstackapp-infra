@@ -62,6 +62,9 @@ sudo chmod 400 ~/.ssh/id_rsa
 
 sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+# Switch to root home directory
+cd /root
+
 # clone repo for backend application
 git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git
 git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git
