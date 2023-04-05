@@ -60,7 +60,7 @@ WxeyNjZRKOgxOJAAAAFmR1YmFzQFN1ZGhhbXNSZWRkeUR1YmEBAgME
 
 sudo chmod 400 ~/.ssh/id_rsa
 
-sudo ssh-keyscan github.com >> .ssh/known_hosts
+sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 
 # clone repo for backend application
 sudo ssh-agent bash -c 'ssh-add ~/.ssh/id_rsa; git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git'
