@@ -90,7 +90,7 @@ Type=simple
 Restart=always
 RestartSec=1
 ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-back-end start
-User=ubuntu
+User=root
 Environment=NODE_ENV=development
 StandardOutput=syslog
 StandardError=syslog
@@ -107,7 +107,7 @@ Type=simple
 Restart=always
 RestartSec=1
 ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-front-end start
-User=ubuntu
+User=root
 StandardOutput=syslog
 StandardError=syslog
 
