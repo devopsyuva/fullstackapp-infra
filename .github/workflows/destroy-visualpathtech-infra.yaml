@@ -51,53 +51,10 @@ jobs:
 
           echo "Infra: Destroy ASG and ALB network"
           terraform destroy -auto-approve
-  
-  terraform-db:
-    # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
-    if: ${{ success() }}
-    needs: [terraform-infra]
-    
-    name: PostgreSQL RDS
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: checkout prod repository
-        uses: actions/checkout@v3
-
-      # Setup AWS credentials to access AWS resources through Terraform
-      # Reference: https://github.com/aws-actions/configure-aws-credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-      
-      - name: Destroy PostgreSQL DB for VisualpathTech Production environment
-        if: ${{ contains(github.event.head_commit.message, 'terraform_destroy db') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
-        run: |
-          cd db/
-          export TF_VAR_db_admin_password="$env:PSQL_PASSWORD"
-          echo 'DB: Run destroy plan'
-          terraform plan -destroy
-
-          echo "DB: Destroy DB"
-          terraform destroy -auto-approve
-        env:
-          PSQL_PASSWORD: ${{ secrets.PSQL_ADMIN_PASSWORD }}
 
   terraform-vpc:
     if: ${{ success() }}
-    needs: [terraform-infra, terraform-db]
+    needs: [terraform-infra]
 
     name: VisualpathTech VPC
     # The type of runner that the job will run on
