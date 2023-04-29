@@ -1,21 +1,21 @@
 resource "aws_route_table" "public_route_table" {
-  vpc_id = aws_vpc.eks_vpc.id
+  vpc_id = aws_vpc.vpt_vpc.id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "VisualpathTech-public_rt"
+      Name = "VisualpathProd-public_rt"
     }
   )
 }
 
 resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.eks_vpc.id
+  vpc_id = aws_vpc.vpt_vpc.id
 
   tags = merge(
     local.common_tags,
     {
-      Name = "VisualpathTech-private_rt"
+      Name = "VisualpathProd-private_rt"
     }
   )
 }
@@ -23,8 +23,8 @@ resource "aws_route_table" "private_route_table" {
 resource "aws_route" "public_route" {
   route_table_id         = aws_route_table.public_route_table.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.eks_igw.id
-  depends_on             = [aws_internet_gateway.eks_igw]
+  gateway_id             = aws_internet_gateway.prod_igw.id
+  depends_on             = [aws_internet_gateway.prod_igw]
 }
 
 resource "aws_route" "private_route" {

@@ -26,7 +26,6 @@ locals {
 locals {
   common_tags = {
     Environment = "Production",
-    type        = "ReactJS",
-    tier        = "Frontend"
+    type        = "Fullstack"
   }
 }

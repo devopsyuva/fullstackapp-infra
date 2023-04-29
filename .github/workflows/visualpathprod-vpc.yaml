@@ -1,11 +1,11 @@
-name: 'Visualpath Tech Infra'
+name: 'Visualpath Production AWS VPC Network'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
   push:
-    branches: [ "prod" ]
+    branches: [ "prod-vpc" ]
   pull_request:
-    branches: [ "prod" ]
+    branches: [ "prod-vpc" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -48,9 +48,9 @@ jobs:
       - name: Setup VPC network for VisualpathTech Production environment
         run: |
           echo `pwd`
-          cd vpc/
+          cd prod-vpc/
           echo "VPC: Initialize Terraform"
-          terraform init
+          terraform init || terraform init -reconfigure
 
           echo "VPC: Format terraform configuration files"
           terraform fmt
@@ -62,53 +62,4 @@ jobs:
           terraform plan
 
           echo "VPC: Running terraform apply to create VPC network"
-          terraform apply -auto-approve
-
-  terraform-infra:
-    # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
-    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply infra') || contains(github.event.head_commit.message, 'terraform_apply all') }}
-    needs: [terraform-vpc]
-
-    name: VisualpathTech Infra
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    environment: production
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: checkout prod repository
-        uses: actions/checkout@v3
-
-      # Setup AWS credentials to access AWS resources through Terraform
-      # Reference: https://github.com/aws-actions/configure-aws-credentials
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-
-      - name: Setup ALB and ASG for VisualpathTech Production environment
-        run: |
-          echo `pwd`
-          cd infra-prod/
-          echo "ALB and ASG: Initialize Terraform"
-          terraform init
-
-          echo "ALB and ASG: Format terraform configuration files"
-          terraform fmt
-
-          echo "ALB and ASG: validate terraform configuration files"
-          terraform validate
-
-          echo "ALB and ASG: Generate plan for DB resource"
-          terraform plan
-
-          echo "ALB and ASG: Running terraform apply to create DB network"
           terraform apply -auto-approve
