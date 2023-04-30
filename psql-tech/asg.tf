@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "psql_asg" {
 
   launch_template {
     id      = aws_launch_template.vpt_launchtemplate.id
-    version = "$Latest"
+    version = aws_launch_template.vpt_launchtemplate.latest_version
   }
 
   instance_refresh {
