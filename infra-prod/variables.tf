@@ -10,6 +10,24 @@ variable "app_template_name" {
   default     = "VPTech-Fullstack"
 }
 
+variable "app_policy_name" {
+  description = "Provide name that to policy"
+  type        = string
+  default     = "VPTech-app-prod"
+}
+
+variable "app_profile_name" {
+  description = "Provide name that to Profile"
+  type        = string
+  default     = "VPTech-app-prod"
+}
+
+variable "app_role_name" {
+  description = "Provide name that to policy"
+  type        = string
+  default     = "VPTech-app-prod"
+}
+
 variable "app_launch_type" {
   description = "Launch type to allocate resources for ASG instances"
   type        = string

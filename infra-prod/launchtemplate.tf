@@ -37,6 +37,10 @@ resource "aws_launch_template" "app_launchtemplate" {
 
   user_data = filebase64("scripts/ec2_initialization.sh")
 
+  iam_instance_profile {
+    arn = aws_iam_instance_profile.app_profile.arn
+  }
+
   tags = merge(
     local.common_tags,
     {
