@@ -6,6 +6,9 @@ echo $(dpkg -l | grep "linux-image-$(uname -r)*" | awk '{print $2}') hold | dpkg
 # update apt index and upgrade all packages to latest version
 sudo apt update -qq && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -qq -y
 
+# Install unzip package for AWS package
+sudo apt install -qq -y unzip
+
 # Install basic packages for Nodejs and Reactjs application
 sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -112,6 +115,12 @@ sudo systemctl start codedeploy-agent
 # Start and enable ReactJS service
 sudo systemctl enable reactjsprod.service
 sudo systemctl start reactjsprod.service || sudo systemctl restart reactjsprod.service
+
+#Install Latest AWS cli package
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+rm -rf awscliv2.zip
 
 # Start NodeJS using PM2 tool
 cd /root/vpt-elearning-back-end/
