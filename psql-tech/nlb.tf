@@ -2,7 +2,6 @@ resource "aws_lb" "psql_nlb" {
   name               = var.nlb_name
   internal           = true
   load_balancer_type = "network"
-  security_groups    = [aws_security_group.nlb_sg.id]
   subnets            = data.aws_subnets.private_subnets.ids #[for subnet in data.aws_subnets.public_subnets : subnet.id]
   ip_address_type    = "ipv4"
 
