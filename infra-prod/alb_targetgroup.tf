@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "app_njs_tg" {
     healthy_threshold   = 3
     interval            = 10
     matcher             = "200-299,300-399"
-    path                = "/"
+    path                = "/health"
     protocol            = "HTTP"
     timeout             = 5
     unhealthy_threshold = 2
