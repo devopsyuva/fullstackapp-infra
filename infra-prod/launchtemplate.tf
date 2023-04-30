@@ -1,5 +1,5 @@
-resource "aws_launch_template" "visualtech_launchtemplate" {
-  name = var.template_name
+resource "aws_launch_template" "app_launchtemplate" {
+  name = var.app_template_name
 
   block_device_mappings {
     device_name = "/dev/xvda"
@@ -7,15 +7,13 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
     ebs {
       volume_size           = 50
       volume_type           = "gp2"
-      delete_on_termination = false
+      delete_on_termination = true
     }
   }
 
-  #ebs_optimized = true
-
   image_id = data.aws_ami.ubuntu_ami.id
 
-  instance_type = var.visualtech_launch_type
+  instance_type = var.app_launch_type
 
   monitoring {
     enabled = true
@@ -25,24 +23,24 @@ resource "aws_launch_template" "visualtech_launchtemplate" {
     tenancy = "default"
   }
 
-  vpc_security_group_ids = [aws_security_group.rjs_app_sg.id]
+  vpc_security_group_ids = [aws_security_group.app_sg.id]
   
   tag_specifications {
     resource_type = "instance"
 
     tags = {
-      Name = "VisualpathTech"
+      Name = "VPTech-app"
     }
   }
 
   key_name = var.app_keypair
 
-  user_data = "${base64encode("scripts/ec2_initialization.sh")}" #TODO: filebase64("path")
+  user_data = filebase64("scripts/ec2_initialization.sh")
 
   tags = merge(
     local.common_tags,
     {
-      Name = "VisualpathTech-LT"
+      Name = "VPTech-APP-LT"
     }
   )
 
