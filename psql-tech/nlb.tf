@@ -3,7 +3,7 @@ resource "aws_lb" "psql_nlb" {
   internal           = true
   load_balancer_type = "network"
   security_groups    = [aws_security_group.nlb_sg.id]
-  subnets            = data.aws_subnet_ids.private_subnets.ids #[for subnet in data.aws_subnets.public_subnets : subnet.id]
+  subnets            = data.aws_subnets.private_subnets.ids #[for subnet in data.aws_subnets.public_subnets : subnet.id]
   ip_address_type    = "ipv4"
 
   enable_deletion_protection = false

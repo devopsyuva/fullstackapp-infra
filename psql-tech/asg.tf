@@ -1,6 +1,6 @@
 resource "aws_autoscaling_group" "psql_asg" {
   name                = var.asg_name
-  vpc_zone_identifier = data.aws_subnet_ids.private_subnets.ids
+  vpc_zone_identifier = data.aws_subnets.private_subnets.ids
   desired_capacity    = 1
   max_size            = 1
   min_size            = 1
@@ -24,7 +24,7 @@ resource "aws_autoscaling_group" "psql_asg" {
     aws_launch_template.vpt_launchtemplate
   ]
 
-  tag = merge(
+  tags = merge(
     local.common_tags,
     {
       Name = "VPTech-PSQL-ASG"
