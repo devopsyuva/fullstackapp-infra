@@ -24,10 +24,11 @@ resource "aws_autoscaling_group" "psql_asg" {
     aws_launch_template.vpt_launchtemplate
   ]
 
-  tags = merge(
-    local.common_tags,
-    {
-      Name = "VPTech-PSQL-ASG"
-    }
-  )
+# TODO: Fix tag issue for PSQL ASG 
+#  tags = merge(
+#    local.common_tags,
+#    {
+#      Name = "VPTech-PSQL-ASG"
+#    }
+#  )
 }
