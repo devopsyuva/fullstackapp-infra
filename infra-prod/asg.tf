@@ -20,7 +20,7 @@ resource "aws_autoscaling_group" "app_asg" {
     aws_launch_template.app_launchtemplate
   ]
 
-  target_group_arns = [ aws_lb_target_group.app_targetgroup.arn ]
+  target_group_arns = [ aws_lb_target_group.app_rjs_tg.arn, aws_lb_target_group.app_njs_tg.arn ]
 
   wait_for_capacity_timeout = "300s"
 }
