@@ -52,28 +52,22 @@ variable "psql_sg_name" {
   default     = "VisualpathTech-APP-sg"
 }
 
-variable "instance_profile_role" {
+variable "psql_role_name" {
   description = "Provide IAM porfile role name"
   type        = string
-  default     = "tech-profile"
+  default     = "VPTech-PSQL-role"
 }
 
-variable "instance_profile_policy" {
-  description = "Provide Profile policy name"
-  type        = string
-  default     = "techprofile-policy"
-}
-
-variable "instance_profile" {
+variable "psql_profile_name" {
   description = "Provide Instance profile name"
   type        = string
-  default     = "tech-profile"
+  default     = "VPTech-PSQL-profile"
 }
 
-variable "codedeploy_role_name" {
-  description = "Provide IAM role name for codedeploy"
+variable "psql_policy_name" {
+  description = "Provide role policy name"
   type        = string
-  default     = "visualpathtech-codedeploy"
+  default     = "VPTech-PSQL-policy"
 }
 
 locals {
