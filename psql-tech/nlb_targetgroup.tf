@@ -7,7 +7,7 @@ resource "aws_lb_target_group" "nlb_targetgroup" {
   vpc_id                        = data.aws_vpc.prod_vpc.id
 
   health_check {
-    enabled             = true
+    enabled             = false
     healthy_threshold   = 3
     interval            = 10
     protocol            = "TCP"
