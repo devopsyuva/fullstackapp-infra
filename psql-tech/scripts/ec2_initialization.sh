@@ -43,7 +43,8 @@ sudo su - postgres bash -c "psql -c \"ALTER DATABASE ${PSQL_DBNAME} OWNER TO pos
 sudo su - postgres bash -c "psql -c \"ALTER USER postgres PASSWORD '${PGPASSWORD}';\""
 
 #Initiate the backup restore
-sudo psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/initial_db_backup
+export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/visualpathtech/db_password" --with-decryption --output text --query Parameter.Value)
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/initial_db_backup
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
