@@ -58,3 +58,14 @@ sudo ./install auto > /tmp/codedeploy_agent_logfile
 
 sudo systemctl enable codedeploy-agent
 sudo systemctl start codedeploy-agent
+
+# Update PostgreSQL database configuration files for remote access
+sudo cp /etc/postgresql/14/main/postgresql.conf /etc/postgresql/14/main/postgresql-backup
+sudo echo "listen_addresses = '0.0.0.0'" >> /etc/postgresql/14/main/postgresql.conf
+
+sudo cp /etc/postgresql/14/main/pg_hba.conf /etc/postgresql/14/main/pg_hba-backup
+sudo echo "host    ${PSQL_DBNAME}      postgres        0.0.0.0/0       scram-sha-256" >> /etc/postgresql/14/main/pg_hba.conf
+
+# Restart PostgreSQL after changes
+sudo systemctl restart postgresql.service
+sudo systemctl enable postgresql.service
