@@ -25,7 +25,7 @@ resource "aws_security_group_rule" "psql_ing_rule" {
   from_port         = 5432
   to_port           = 5432
   protocol          = "tcp"
-  cidr_blocks       = data.aws_vpc.prod_vpc.cidr_block
+  cidr_blocks       = ["${data.aws_vpc.prod_vpc.cidr_block}"]
   security_group_id = aws_security_group.psql_sg.id
 }
 
@@ -34,7 +34,7 @@ resource "aws_security_group_rule" "ssh_ing_rule" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  cidr_blocks       = data.aws_vpc.prod_vpc.cidr_block
+  cidr_blocks       = ["${data.aws_vpc.prod_vpc.cidr_block}"]
   security_group_id = aws_security_group.psql_sg.id
 }
 
