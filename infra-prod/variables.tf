@@ -13,19 +13,19 @@ variable "app_template_name" {
 variable "app_policy_name" {
   description = "Provide name that to policy"
   type        = string
-  default     = "VPTech-app-prod"
+  default     = "VPTech-app-policy"
 }
 
 variable "app_profile_name" {
   description = "Provide name that to Profile"
   type        = string
-  default     = "VPTech-app-prod"
+  default     = "VPTech-app-profile"
 }
 
 variable "app_role_name" {
   description = "Provide name that to policy"
   type        = string
-  default     = "VPTech-app-prod"
+  default     = "VPTech-app-role"
 }
 
 variable "app_launch_type" {
