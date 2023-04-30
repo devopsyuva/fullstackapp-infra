@@ -1,0 +1,31 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "TechSystemManagerDescParams",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:DescribeParameters"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "TechSystemManagerGetParams",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameters",
+                "ssm:GetParameter"
+            ],
+            "Resource": "arn:aws:ssm:us-east-1:017187748261:parameter/visualpathtech*"
+        },
+		{
+            "Sid": "TechDBbackup",
+			"Effect": "Allow",
+            "Action":[
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource":"arn:aws:s3:::visualpathtech/*"
+        }
+    ]
+}

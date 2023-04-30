@@ -1,4 +1,4 @@
-name: 'Visualpath Tech PSQL Cleanup'
+name: 'Visualpath Tech PSQL infra'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
@@ -18,7 +18,7 @@ permissions:
 jobs:
   terraform-psql-infra:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
-    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_destroy psql') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
+    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply psql') || contains(github.event.head_commit.message, 'terraform_apply all') }}
 
     name: VisualpathTech PSQL infra
     # The type of runner that the job will run on
@@ -45,15 +45,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Destroy ALB and ASG for VisualpathTech PSQL DB Production environment
+      - name: Setup ALB and ASG for VisualpathTech PSQL DB Production environment
         run: |
           echo `pwd`
           cd psql-tech/
           echo "ALB and ASG: Initialize Terraform"
           terraform init || terraform init -reconfigure
 
-          echo "ALB and ASG: Generate plan for DB resource"
-          terraform plan -destroy
+          echo "ALB and ASG: Format terraform configuration files"
+          terraform fmt
 
-          echo "ALB and ASG: Running terraform destroy to cleanup DB infra"
+          echo "ALB and ASG: validate terraform configuration files"
+          terraform validate
+
+          echo "ALB and ASG: Generate plan for DB resource"
+          terraform plan
+
+          echo "ALB and ASG: Running terraform apply to create DB network"
           terraform apply -auto-approve
