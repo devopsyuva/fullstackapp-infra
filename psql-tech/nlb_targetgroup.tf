@@ -11,8 +11,6 @@ resource "aws_lb_target_group" "nlb_targetgroup" {
     enabled             = true
     healthy_threshold   = 3
     interval            = 10
-    matcher             = "200-299,300-399"
-    path                = "/"
     protocol            = "TCP"
     timeout             = 5
     unhealthy_threshold = 2
