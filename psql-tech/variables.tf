@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "asg_name" {
   description = "Provide name for ASG to implement VisualpathTech app"
   type        = string
-  default     = "tech-asg"
+  default     = "VPTech-asg"
 }
 
 variable "psql_template_name" {
@@ -31,25 +31,25 @@ variable "psql_keypair" {
 variable "nlb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "VisualpathTech-ReactJS-alb"
+  default     = "vptech-psql-nlb"
 }
 
 variable "nlb_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "Techtg"
+  default     = "VPTech-PSQL"
 }
 
 variable "nlb_sg_name" {
   description = "Provide name to ALB security group"
   type        = string
-  default     = "VisualpathTech-ALB-sg"
+  default     = "VPTech-NLB-sg"
 }
 
 variable "psql_sg_name" {
   description = "Provide name to EC2 attached security groups through ASG"
   type        = string
-  default     = "VisualpathTech-APP-sg"
+  default     = "VPTech-PSQL-sg"
 }
 
 variable "psql_role_name" {

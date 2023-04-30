@@ -5,7 +5,6 @@ resource "aws_lb_target_group" "nlb_targetgroup" {
   target_type                   = "instance"
   ip_address_type               = "ipv4"
   vpc_id                        = data.aws_vpc.prod_vpc.id
-  load_balancing_algorithm_type = "round_robin"
 
   health_check {
     enabled             = true
