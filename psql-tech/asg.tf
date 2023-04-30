@@ -20,14 +20,14 @@ resource "aws_autoscaling_group" "psql_asg" {
 
   wait_for_capacity_timeout = "300s"
 
-  tags = merge(
+  depends_on = [
+    aws_launch_template.vpt_launchtemplate
+  ]
+
+  tag = merge(
     local.common_tags,
     {
       Name = "VPTech-PSQL-ASG"
     }
   )
-
-  depends_on = [
-    aws_launch_template.vpt_launchtemplate
-  ]
 }
