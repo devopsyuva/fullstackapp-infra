@@ -6,5 +6,6 @@ resource "aws_route53_record" "dns_alb" {
   alias {
     name                   = aws_lb.app_alb.dns_name
     zone_id                = aws_lb.app_alb.zone_id
+    evaluate_target_health = false
   }
 }
