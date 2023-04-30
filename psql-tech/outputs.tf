@@ -1,4 +1,4 @@
 output "alb_endpoint" {
-  description = "ALB endpoint to access VisualpathTech application"
-  value       = aws_lb.visualtech_asg.dns_name
+  description = "NLB endpoint to access VisualpathTech PSQL DB"
+  value       = aws_lb.psql_nlb.dns_name
 }
