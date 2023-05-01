@@ -21,6 +21,14 @@ resource "aws_iam_policy" "app_policy" {
             "Effect": "Allow",
             "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/visualpathtech*",
             "Sid": "TechSystemManagerGetParams"
+        },
+        {
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
         }
     ],
     Version: "2012-10-17"
