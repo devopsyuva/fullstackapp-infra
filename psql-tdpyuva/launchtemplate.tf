@@ -40,7 +40,7 @@ resource "aws_launch_template" "vpt_launchtemplate" {
   user_data = filebase64("scripts/ec2_initialization.sh")
 
   iam_instance_profile {
-    arn = aws_iam_instance_profile.psql_profile.arn
+    name = aws_iam_instance_profile.psql_profile.arn
   }
 
   tags = merge(
