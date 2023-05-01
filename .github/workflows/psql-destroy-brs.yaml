@@ -1,11 +1,11 @@
-name: 'Visualpath Tech PSQL Cleanup'
+name: 'Visualpath BRSyuva PSQL Cleanup'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
   push:
-    branches: [ "vpt-psql" ]
+    branches: [ "brsyuva-psql" ]
   pull_request:
-    branches: [ "vpt-psql" ]
+    branches: [ "brsyuva-psql" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
     if: ${{ success() && contains(github.event.head_commit.message, 'terraform_destroy psql') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
 
-    name: VisualpathTech PSQL infra
+    name: BRSyuva PSQL DB infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -45,15 +45,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Destroy ALB and ASG for VisualpathTech PSQL DB Production environment
+      - name: Destroy PostgreSQL for BRSyuva PSQL DB Production environment
         run: |
           echo `pwd`
-          cd psql-tech/
+          cd psql-brsyuva/
           echo "ALB and ASG: Initialize Terraform"
           terraform init || terraform init -reconfigure
 
           echo "ALB and ASG: Generate plan for DB resource"
           terraform plan -destroy
 
-          echo "ALB and ASG: Running terraform destroy to cleanup DB infra"
+          echo "PostgreSQL: Running terraform destroy to cleanup DB infra"
           terraform apply -auto-approve

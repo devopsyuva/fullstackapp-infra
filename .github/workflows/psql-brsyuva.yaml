@@ -1,11 +1,11 @@
-name: 'Visualpath Tech PSQL infra'
+name: 'Visualpath BRSyuva PSQL infra'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
   push:
-    branches: [ "vpt-psql" ]
+    branches: [ "brsyuva-psql" ]
   pull_request:
-    branches: [ "vpt-psql" ]
+    branches: [ "brsyuva-psql" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
     if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply psql') || contains(github.event.head_commit.message, 'terraform_apply all') }}
 
-    name: VisualpathTech PSQL infra
+    name: BRSyuva PSQL DB infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -45,21 +45,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Setup ALB and ASG for VisualpathTech PSQL DB Production environment
+      - name: Setup PostgreSQL for BRSyuva PSQL DB Production environment
         run: |
           echo `pwd`
-          cd psql-tech/
-          echo "ALB and ASG: Initialize Terraform"
+          cd psql-brsyuva/
+          echo "PostgreSQL: Initialize Terraform"
           terraform init || terraform init -reconfigure
 
-          echo "ALB and ASG: Format terraform configuration files"
+          echo "PostgreSQL: Format terraform configuration files"
           terraform fmt
 
-          echo "ALB and ASG: validate terraform configuration files"
+          echo "PostgreSQL: validate terraform configuration files"
           terraform validate
 
-          echo "ALB and ASG: Generate plan for DB resource"
+          echo "PostgreSQL: Generate plan for DB resource"
           terraform plan
 
-          echo "ALB and ASG: Running terraform apply to create DB network"
+          echo "PostgreSQL: Running terraform apply to create DB network"
           terraform apply -auto-approve

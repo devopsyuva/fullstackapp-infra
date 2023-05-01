@@ -7,13 +7,13 @@ variable "aws_region" {
 variable "asg_name" {
   description = "Provide name for ASG to implement VisualpathTech app"
   type        = string
-  default     = "VPTech-PSQL-asg"
+  default     = "BRSyuva-PSQL-asg"
 }
 
 variable "psql_template_name" {
   description = "Provide name that to be assigned launch template"
   type        = string
-  default     = "VPTech-PSQL"
+  default     = "BRSyuva-PSQL"
 }
 
 variable "psql_launch_type" {
@@ -25,49 +25,49 @@ variable "psql_launch_type" {
 variable "psql_keypair" {
   description = "Keypair name assign EC2 instance, not managed through Terraform"
   type        = string
-  default     = "VisualpathTech"
+  default     = "brsyuva"
 }
 
 variable "nlb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "vptech-psql-nlb"
+  default     = "BRSyuva-psql-nlb"
 }
 
 variable "nlb_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "VPTech-PSQL"
+  default     = "BRSyuva-PSQL"
 }
 
 variable "nlb_sg_name" {
   description = "Provide name to ALB security group"
   type        = string
-  default     = "VPTech-NLB-sg"
+  default     = "BRSyuva-NLB-sg"
 }
 
 variable "psql_sg_name" {
   description = "Provide name to EC2 attached security groups through ASG"
   type        = string
-  default     = "VPTech-PSQL-sg"
+  default     = "BRSyuva-PSQL-sg"
 }
 
 variable "psql_role_name" {
   description = "Provide IAM porfile role name"
   type        = string
-  default     = "VPTech-PSQL-role"
+  default     = "BRSyuva-PSQL-role"
 }
 
 variable "psql_profile_name" {
   description = "Provide Instance profile name"
   type        = string
-  default     = "VPTech-PSQL-profile"
+  default     = "BRSyuva-PSQL-profile"
 }
 
 variable "psql_policy_name" {
   description = "Provide role policy name"
   type        = string
-  default     = "VPTech-PSQL-policy"
+  default     = "BRSyuva-PSQL-policy"
 }
 
 locals {
