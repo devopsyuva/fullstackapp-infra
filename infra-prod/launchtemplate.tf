@@ -29,7 +29,7 @@ resource "aws_launch_template" "app_launchtemplate" {
     resource_type = "instance"
 
     tags = {
-      Name = "VPTech-app"
+      Name = "TDPyuva-app"
     }
   }
 
@@ -44,7 +44,7 @@ resource "aws_launch_template" "app_launchtemplate" {
   tags = merge(
     local.common_tags,
     {
-      Name = "VPTech-APP-LT"
+      Name = "TDPyuva-APP-LT"
     }
   )
 
