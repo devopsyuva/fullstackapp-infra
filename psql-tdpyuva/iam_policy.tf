@@ -19,7 +19,7 @@ resource "aws_iam_policy" "psql_policy" {
                 "ssm:GetParameter"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/visualpathtech*",
+            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/tdpyuva*",
             "Sid": "TechSystemManagerGetParams"
         },
         {
@@ -46,7 +46,7 @@ resource "aws_iam_policy" "psql_policy" {
                 "StringEquals": {
                     "s3:prefix": [
                         "",
-                        "visualpathtech"
+                        "tdpyuva"
                     ],
                     "s3:delimiter": [
                         "/"
@@ -60,8 +60,8 @@ resource "aws_iam_policy" "psql_policy" {
                 "s3:GetObjectVersion"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:s3:::visualpathbackups/visualpathtech/db/*",
-            "Sid": "TechDBbackup"
+            "Resource": "arn:aws:s3:::visualpathbackups/tdpyuva/db/*",
+            "Sid": "TDPyuvaDBbackup"
         }
     ],
     Version: "2012-10-17"
