@@ -11,7 +11,7 @@ resource "aws_iam_policy" "app_policy" {
             ],
             "Effect": "Allow",
             "Resource": "*",
-            "Sid": "TechSystemManagerDescParams"
+            "Sid": "TDPyuvaSystemManagerDescParams"
         },
         {
             "Action": [
@@ -19,8 +19,8 @@ resource "aws_iam_policy" "app_policy" {
                 "ssm:GetParameter"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/visualpathtech*",
-            "Sid": "TechSystemManagerGetParams"
+            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/tdpyuva*",
+            "Sid": "TDPyuvaSystemManagerGetParams"
         },
         {
             "Action": [

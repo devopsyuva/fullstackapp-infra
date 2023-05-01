@@ -9,7 +9,7 @@ resource "aws_lb" "app_alb" {
   tags = merge(
     local.common_tags,
     {
-      Name = "VPTech-APP-ALB"
+      Name = "TDPyuva-APP-ALB"
     }
   )
 
@@ -18,17 +18,6 @@ resource "aws_lb" "app_alb" {
   ]
 
 }
-
-
-#resource "aws_lb_listener_certificate" "app_rjs_cert" {
-#  listener_arn    = aws_lb_listener.rjs_listener.arn
-#  certificate_arn = "arn:aws:acm:ap-south-1:099730796456:certificate/3ada7a31-2dd8-400c-b2ee-10181c0188ae"
-#}
-
-#resource "aws_lb_listener_certificate" "app_njs_cert" {
-#  listener_arn    = aws_lb_listener.njs_listener.arn
-#  certificate_arn = "arn:aws:acm:ap-south-1:099730796456:certificate/3ada7a31-2dd8-400c-b2ee-10181c0188ae"
-#}
 
 resource "aws_lb_listener" "redirect_listener" {
   load_balancer_arn = aws_lb.app_alb.arn
@@ -55,7 +44,7 @@ resource "aws_lb_listener" "rjs_listener" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/0b674fd7-52db-425d-8420-4b211e4bbe0f"
+  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/b48a29b2-7e82-476a-b7c1-e2e534afc91e"
 
   default_action {
     type             = "forward"
@@ -72,7 +61,7 @@ resource "aws_lb_listener" "njs_listener" {
   port              = "444"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/0b674fd7-52db-425d-8420-4b211e4bbe0f"
+  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/b48a29b2-7e82-476a-b7c1-e2e534afc91e"
 
   default_action {
     type             = "forward"
