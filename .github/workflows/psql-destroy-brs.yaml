@@ -56,4 +56,4 @@ jobs:
           terraform plan -destroy
 
           echo "PostgreSQL: Running terraform destroy to cleanup DB infra"
-          terraform apply -auto-approve
+          terraform destroy -auto-approve
