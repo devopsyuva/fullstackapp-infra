@@ -9,7 +9,7 @@ resource "aws_lb" "app_alb" {
   tags = merge(
     local.common_tags,
     {
-      Name = "BRSyuva-APP-ALB"
+      Name = "AssestHub-APP-ALB"
     }
   )
 

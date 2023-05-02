@@ -72,16 +72,16 @@ sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 cd /root
 
 # clone repo for backend application
-git clone -b brs-yuva --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git
-git clone -b brs-yuva --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git
+git clone -b main --single-branch git@github.com:visualpathtech/vpt-auth-backend.git
+git clone -b main --single-branch git@github.com:visualpathtech/vpt-auth-frontend.git
 
-cd /root/vpt-elearning-back-end/
+cd /root/vpt-auth-backend/
 
 # Install NodesJS packages
 npm install 2>/dev/null
 
 
-cd /root/vpt-elearning-front-end/
+cd /root/vpt-auth-frontend/
 
 # Install ReactJS packages
 npm install node-sass --ignore-scripts
@@ -123,6 +123,6 @@ sudo ./aws/install
 rm -rf awscliv2.zip
 
 # Start NodeJS using PM2 tool
-cd /root/vpt-elearning-back-end/
-aws --region=ap-south-1 ssm get-parameter --name "/brsyuva/env_file" --with-decryption --output text --query Parameter.Value > .env
+cd /root/vpt-auth-backend/
+aws --region=ap-south-1 ssm get-parameter --name "/assesthub/env_file" --with-decryption --output text --query Parameter.Value > .env
 sudo pm2 start server.js

@@ -11,7 +11,7 @@ resource "aws_iam_policy" "app_policy" {
             ],
             "Effect": "Allow",
             "Resource": "*",
-            "Sid": "BRSyuvaSystemManagerDescParams"
+            "Sid": "AssestHubSystemManagerDescParams"
         },
         {
             "Action": [
@@ -19,8 +19,8 @@ resource "aws_iam_policy" "app_policy" {
                 "ssm:GetParameter"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/brsyuva*",
-            "Sid": "BRSyuvaSystemManagerGetParams"
+            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/assesthub*",
+            "Sid": "AssestHubSystemManagerGetParams"
         },
         {
             "Action": [

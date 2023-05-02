@@ -29,7 +29,7 @@ resource "aws_launch_template" "app_launchtemplate" {
     resource_type = "instance"
 
     tags = {
-      Name = "BRSyuva-app"
+      Name = "AssestHub-app"
     }
   }
 
@@ -44,7 +44,7 @@ resource "aws_launch_template" "app_launchtemplate" {
   tags = merge(
     local.common_tags,
     {
-      Name = "BRSyuva-APP-LT"
+      Name = "AssestHub-APP-LT"
     }
   )
 

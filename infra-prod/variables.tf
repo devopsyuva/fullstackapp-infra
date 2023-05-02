@@ -7,25 +7,25 @@ variable "aws_region" {
 variable "app_template_name" {
   description = "Provide name that to be assigned launch template"
   type        = string
-  default     = "BRSyuva-Fullstack"
+  default     = "AssestHub-Fullstack"
 }
 
 variable "app_policy_name" {
   description = "Provide name that to policy"
   type        = string
-  default     = "BRSyuva-app-policy"
+  default     = "AssestHub-app-policy"
 }
 
 variable "app_profile_name" {
   description = "Provide name that to Profile"
   type        = string
-  default     = "BRSyuva-app-profile"
+  default     = "AssestHub-app-profile"
 }
 
 variable "app_role_name" {
   description = "Provide name that to policy"
   type        = string
-  default     = "BRSyuva-app-role"
+  default     = "AssestHub-app-role"
 }
 
 variable "app_launch_type" {
@@ -37,43 +37,43 @@ variable "app_launch_type" {
 variable "app_keypair" {
   description = "Keypair name assign EC2 instance, not managed through Terraform"
   type        = string
-  default     = "brsyuva"
+  default     = "assesthub"
 }
 
 variable "alb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "brsyuva-alb"
+  default     = "AssestHub-alb"
 }
 
 variable "rjs_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "BRSyuva-RJS-tg"
+  default     = "AssestHub-RJS-tg"
 }
 
 variable "njs_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "BRSyuva-NJS-tg"
+  default     = "AssestHub-NJS-tg"
 }
 
 variable "asg_name" {
   description = "Provide name to ASG"
   type        = string
-  default     = "BRSyuva-ALB-asg"
+  default     = "AssestHub-ALB-asg"
 }
 
 variable "alb_sg_name" {
   description = "Provide name to ALB security group"
   type        = string
-  default     = "BRSyuva-ALB-sg"
+  default     = "AssestHub-ALB-sg"
 }
 
 variable "app_sg_name" {
   description = "Provide name to EC2 attached security groups through ASG"
   type        = string
-  default     = "BRSyuva-APP-sg"
+  default     = "AssestHub-APP-sg"
 }
 
 locals {

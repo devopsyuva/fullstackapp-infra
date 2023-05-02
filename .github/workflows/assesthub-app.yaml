@@ -1,11 +1,11 @@
-name: 'Visualpath BRSyuva App Deployment'
+name: 'Visualpath AssestHub App Deployment'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "brsyuva" branch
   push:
-    branches: [ "brsyuva" ]
+    branches: [ "assesthub" ]
   pull_request:
-    branches: [ "brsyuva" ]
+    branches: [ "assesthub" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
   terraform-infra:
     if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply app') || contains(github.event.head_commit.message, 'terraform_apply all') }}
 
-    name: BRSyuva App Infra
+    name: AssestHub App Infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -44,7 +44,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Setup ALB and ASG for BRSyuva Production environment
+      - name: Setup ALB and ASG for AssestHub Production environment
         run: |
           echo `pwd`
           cd infra-prod/
