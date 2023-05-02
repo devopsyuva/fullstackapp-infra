@@ -27,7 +27,7 @@ rm -rf awscliv2.zip
 aws --version
 
 #Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html#iam-policy-ex3
-aws s3 cp s3://visualpathbackups/assesthub/db /tmp/ || exit 1
+aws s3 cp s3://visualpathbackups/assesthub/db /tmp/ --recursive || exit 1
 
 set +xe
 #Pull DB secrets from SSM
@@ -44,17 +44,17 @@ sudo su - postgres bash -c "psql -c \"ALTER USER postgres PASSWORD '${PGPASSWORD
 
 #Initiate the backup restore
 export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/assesthub/db_password" --with-decryption --output text --query Parameter.Value)
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/create_TYPES.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_USERS.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_USER_TOKENS.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_OTP.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_EXPERTISE.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_QUALIFICATIONS.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_QUALIFICATION_STREAMS.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_USER_PROFILES.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_FEATURES.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_ROLES.sql
-psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/db/insert_ADMIN_SETTING_SECTIONS.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/create_TYPES.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_USERS.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_USER_TOKENS.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_OTP.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_EXPERTISE.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_QUALIFICATIONS.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_QUALIFICATION_STREAMS.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_USER_PROFILES.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_FEATURES.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_ROLES.sql
+psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/insert_ADMIN_SETTING_SECTIONS.sql
 
 
 # Install the CodeDeploy agent on Ubuntu Server
