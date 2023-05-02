@@ -56,6 +56,14 @@ resource "aws_iam_policy" "psql_policy" {
         },
         {
             "Action": [
+                "s3:ListBucket"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:s3:::visualpathbackups",
+            "Sid": "ListBuckets"
+        },
+        {
+            "Action": [
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
