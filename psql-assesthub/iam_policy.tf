@@ -19,7 +19,7 @@ resource "aws_iam_policy" "psql_policy" {
                 "ssm:GetParameter"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/brsyuva*",
+            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/assesthub*",
             "Sid": "BRSyuvaSystemManagerGetParams"
         },
         {
@@ -46,7 +46,7 @@ resource "aws_iam_policy" "psql_policy" {
                 "StringEquals": {
                     "s3:prefix": [
                         "",
-                        "brsyuva"
+                        "assesthub"
                     ],
                     "s3:delimiter": [
                         "/"
@@ -60,7 +60,7 @@ resource "aws_iam_policy" "psql_policy" {
                 "s3:GetObjectVersion"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:s3:::visualpathbackups/brsyuva/db/*",
+            "Resource": "arn:aws:s3:::visualpathbackups/assesthub/db/*",
             "Sid": "BRSyuvaDBbackup"
         }
     ],

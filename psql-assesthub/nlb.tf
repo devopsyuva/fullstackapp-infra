@@ -11,7 +11,7 @@ resource "aws_lb" "psql_nlb" {
   tags = merge(
     local.common_tags,
     {
-      Name = "BRSyuva-PSQL-NLB"
+      Name = "AssestHub-PSQL-NLB"
     }
   )
 

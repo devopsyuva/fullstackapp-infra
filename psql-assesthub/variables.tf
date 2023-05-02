@@ -7,13 +7,13 @@ variable "aws_region" {
 variable "asg_name" {
   description = "Provide name for ASG to implement VisualpathTech app"
   type        = string
-  default     = "BRSyuva-PSQL-asg"
+  default     = "AssestHub-PSQL-asg"
 }
 
 variable "psql_template_name" {
   description = "Provide name that to be assigned launch template"
   type        = string
-  default     = "BRSyuva-PSQL"
+  default     = "AssestHub-PSQL"
 }
 
 variable "psql_launch_type" {
@@ -25,49 +25,49 @@ variable "psql_launch_type" {
 variable "psql_keypair" {
   description = "Keypair name assign EC2 instance, not managed through Terraform"
   type        = string
-  default     = "brsyuva"
+  default     = "assesthub"
 }
 
 variable "nlb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "brsyuva-psql-nlb"
+  default     = "AssestHub-psql-nlb"
 }
 
 variable "nlb_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "BRSyuva-PSQL"
+  default     = "AssestHub-PSQL"
 }
 
 variable "nlb_sg_name" {
   description = "Provide name to ALB security group"
   type        = string
-  default     = "BRSyuva-NLB-sg"
+  default     = "AssestHub-NLB-sg"
 }
 
 variable "psql_sg_name" {
   description = "Provide name to EC2 attached security groups through ASG"
   type        = string
-  default     = "BRSyuva-PSQL-sg"
+  default     = "AssestHub-PSQL-sg"
 }
 
 variable "psql_role_name" {
   description = "Provide IAM porfile role name"
   type        = string
-  default     = "BRSyuva-PSQL-role"
+  default     = "AssestHub-PSQL-role"
 }
 
 variable "psql_profile_name" {
   description = "Provide Instance profile name"
   type        = string
-  default     = "BRSyuva-PSQL-profile"
+  default     = "AssestHub-PSQL-profile"
 }
 
 variable "psql_policy_name" {
   description = "Provide role policy name"
   type        = string
-  default     = "BRSyuva-PSQL-policy"
+  default     = "AssestHub-PSQL-policy"
 }
 
 locals {

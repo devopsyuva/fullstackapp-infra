@@ -31,7 +31,7 @@ resource "aws_launch_template" "vpt_launchtemplate" {
     resource_type = "instance"
 
     tags = {
-      Name = "BRSyuva-psql"
+      Name = "AssestHub-psql"
     }
   }
 
@@ -46,7 +46,7 @@ resource "aws_launch_template" "vpt_launchtemplate" {
   tags = merge(
     local.common_tags,
     {
-      Name = "BRSyuva-PSQL-LT"
+      Name = "AssestHub-PSQL-LT"
     }
   )
 

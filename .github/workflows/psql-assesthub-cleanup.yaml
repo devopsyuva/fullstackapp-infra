@@ -1,11 +1,11 @@
-name: 'Visualpath BRSyuva PSQL infra'
+name: 'Visualpath AssestHub PSQL Cleanup'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
   push:
-    branches: [ "brsyuva-psql" ]
+    branches: [ "assesthub-psql" ]
   pull_request:
-    branches: [ "brsyuva-psql" ]
+    branches: [ "assesthub-psql" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,9 +18,9 @@ permissions:
 jobs:
   terraform-psql-infra:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
-    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply psql') || contains(github.event.head_commit.message, 'terraform_apply all') }}
+    if: ${{ success() && contains(github.event.head_commit.message, 'terraform_destroy psql') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
 
-    name: BRSyuva PSQL DB infra
+    name: AssestHub PSQL DB infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -45,21 +45,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Setup PostgreSQL for BRSyuva PSQL DB Production environment
+      - name: Destroy PostgreSQL for AssestHub PSQL DB Production environment
         run: |
           echo `pwd`
-          cd psql-brsyuva/
+          cd psql-assesthub/
           echo "PostgreSQL: Initialize Terraform"
           terraform init || terraform init -reconfigure
 
-          echo "PostgreSQL: Format terraform configuration files"
-          terraform fmt
-
-          echo "PostgreSQL: validate terraform configuration files"
-          terraform validate
-
           echo "PostgreSQL: Generate plan for DB resource"
-          terraform plan
+          terraform plan -destroy
 
-          echo "PostgreSQL: Running terraform apply to create DB network"
-          terraform apply -auto-approve
+          echo "PostgreSQL: Running terraform destroy to cleanup DB infra"
+          terraform destroy -auto-approve
