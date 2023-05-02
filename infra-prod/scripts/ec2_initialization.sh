@@ -94,7 +94,7 @@ After=syslog.target network.target
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-front-end start
+ExecStart=/usr/bin/npm --prefix /root/vpt-auth-frontend start
 User=root
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/reactjsprod.service

@@ -44,7 +44,7 @@ resource "aws_lb_listener" "rjs_listener" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/512130ba-7396-4a5a-a5be-20af3914e262"
+  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/96da66af-2d4c-4536-bc6f-b97b7aba24d4"
 
   default_action {
     type             = "forward"
@@ -61,7 +61,7 @@ resource "aws_lb_listener" "njs_listener" {
   port              = "444"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/512130ba-7396-4a5a-a5be-20af3914e262"
+  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/96da66af-2d4c-4536-bc6f-b97b7aba24d4"
 
   default_action {
     type             = "forward"
