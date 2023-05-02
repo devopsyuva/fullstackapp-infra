@@ -9,7 +9,7 @@ resource "aws_lb" "app_alb" {
   tags = merge(
     local.common_tags,
     {
-      Name = "TDPyuva-APP-ALB"
+      Name = "BRSyuva-APP-ALB"
     }
   )
 
@@ -44,7 +44,7 @@ resource "aws_lb_listener" "rjs_listener" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/b48a29b2-7e82-476a-b7c1-e2e534afc91e"
+  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/512130ba-7396-4a5a-a5be-20af3914e262"
 
   default_action {
     type             = "forward"
@@ -61,7 +61,7 @@ resource "aws_lb_listener" "njs_listener" {
   port              = "444"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/b48a29b2-7e82-476a-b7c1-e2e534afc91e"
+  certificate_arn   = "arn:aws:acm:ap-south-1:099730796456:certificate/512130ba-7396-4a5a-a5be-20af3914e262"
 
   default_action {
     type             = "forward"

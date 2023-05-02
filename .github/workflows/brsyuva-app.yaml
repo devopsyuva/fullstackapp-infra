@@ -1,11 +1,11 @@
-name: 'Visualpath TDPyuva App Deployment'
+name: 'Visualpath BRSyuva App Deployment'
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "vptech" branch
+  # Triggers the workflow on push or pull request events but only for the "brsyuva" branch
   push:
-    branches: [ "tdpyuva" ]
+    branches: [ "brsyuva" ]
   pull_request:
-    branches: [ "tdpyuva" ]
+    branches: [ "brsyuva" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
   terraform-infra:
     if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply app') || contains(github.event.head_commit.message, 'terraform_apply all') }}
 
-    name: TDPyuva App Infra
+    name: BRSyuva App Infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -44,7 +44,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Setup ALB and ASG for VisualpathTech Production environment
+      - name: Setup ALB and ASG for BRSyuva Production environment
         run: |
           echo `pwd`
           cd infra-prod/
@@ -60,5 +60,5 @@ jobs:
           echo "ALB and ASG: Generate plan for DB resource"
           terraform plan
 
-          echo "ALB and ASG: Running terraform apply to create DB network"
+          echo "ALB and ASG: Running terraform apply to create APP network"
           terraform apply -auto-approve

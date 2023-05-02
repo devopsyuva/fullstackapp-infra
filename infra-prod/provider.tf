@@ -9,7 +9,7 @@ terraform {
   # S3 bucket for storing state file in remote backend
   backend "s3" {
     bucket         = "visualpath-terraform-manifests"
-    key            = "production/tdpyuva/app/terraform.tfstate"
+    key            = "production/brsyuva/app/terraform.tfstate"
     region         = "ap-south-1"
     dynamodb_table = "terraform-visualpathtech"
   }
