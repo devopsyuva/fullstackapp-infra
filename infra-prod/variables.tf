@@ -31,7 +31,7 @@ variable "app_role_name" {
 variable "app_launch_type" {
   description = "Launch type to allocate resources for ASG instances"
   type        = string
-  default     = "t3.medium"
+  default     = "t2.medium"
 }
 
 variable "app_keypair" {
