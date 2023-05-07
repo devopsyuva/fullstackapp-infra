@@ -31,7 +31,7 @@ variable "app_role_name" {
 variable "app_launch_type" {
   description = "Launch type to allocate resources for ASG instances"
   type        = string
-  default     = "t3.medium"
+  default     = "t2.medium"
 }
 
 variable "app_keypair" {
@@ -43,7 +43,7 @@ variable "app_keypair" {
 variable "alb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "VisualpathTech-ReactJS-alb"
+  default     = "visualpathtech-alb"
 }
 
 variable "rjs_targetgroup_name" {
