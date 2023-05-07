@@ -19,7 +19,7 @@ variable "psql_template_name" {
 variable "psql_launch_type" {
   description = "Launch type to allocate resources for ASG instances"
   type        = string
-  default     = "t3.medium"
+  default     = "t2.medium"
 }
 
 variable "psql_keypair" {
