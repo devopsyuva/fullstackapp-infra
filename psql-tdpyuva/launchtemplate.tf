@@ -2,10 +2,10 @@ resource "aws_launch_template" "vpt_launchtemplate" {
   name = var.psql_template_name
 
   block_device_mappings {
-    device_name = "/dev/xvda"
+    device_name = "/dev/sda1"
 
     ebs {
-      volume_size           = 50
+      volume_size           = 40
       volume_type           = "gp2"
       delete_on_termination = false
     }

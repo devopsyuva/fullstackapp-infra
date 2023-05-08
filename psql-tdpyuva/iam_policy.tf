@@ -57,7 +57,8 @@ resource "aws_iam_policy" "psql_policy" {
         {
             "Action": [
                 "s3:GetObject",
-                "s3:GetObjectVersion"
+                "s3:GetObjectVersion",
+                "s3:PutObject"
             ],
             "Effect": "Allow",
             "Resource": "arn:aws:s3:::visualpathbackups/tdpyuva/db/*",
