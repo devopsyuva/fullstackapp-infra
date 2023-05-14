@@ -116,11 +116,14 @@ sudo systemctl start codedeploy-agent
 sudo systemctl enable reactjsprod.service
 sudo systemctl start reactjsprod.service || sudo systemctl restart reactjsprod.service
 
-#Install Latest AWS cli package
+# Install Latest AWS cli package
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 rm -rf awscliv2.zip
+
+# Update cronjob for root user
+sudo echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
 
 # Start NodeJS using PM2 tool
 cd /root/vpt-elearning-back-end/
