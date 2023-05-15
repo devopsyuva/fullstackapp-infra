@@ -49,13 +49,13 @@ variable "alb_name" {
 variable "rjs_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "VPTech-RJS-tg"
+  default     = "VPTRJS"
 }
 
 variable "njs_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "VPTech-NJS-tg"
+  default     = "VPTNJS"
 }
 
 variable "asg_name" {
