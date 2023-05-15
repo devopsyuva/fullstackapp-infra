@@ -1,7 +1,7 @@
 resource "aws_autoscaling_group" "app_asg" {
   name                = var.asg_name
-  availability_zones  = [ "ap-south-1a", "ap-south-1b" ]
-  #vpc_zone_identifier = data.aws_subnets.private_subnets.ids
+  #availability_zones  = [ "ap-south-1a", "ap-south-1b" ]
+  vpc_zone_identifier = data.aws_subnets.private_subnets.ids
   desired_capacity    = 1
   max_size            = 3
   min_size            = 1
