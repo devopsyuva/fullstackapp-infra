@@ -43,7 +43,7 @@ variable "app_keypair" {
 variable "alb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "visualpathtech-alb"
+  default     = "vptech-app-alb"
 }
 
 variable "rjs_targetgroup_name" {

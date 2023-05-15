@@ -93,14 +93,14 @@ sudo apt install -qq -y wget
 
 wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
 sudo chmod +x /tmp/install
-cd /tmp && sudo ./install auto > /tmp/codedeploy_agent_logfile && cd -
+cd /tmp && sudo ./install auto && cd -
 
 sudo systemctl enable codedeploy-agent
 sudo systemctl start codedeploy-agent
 
 # Install Latest AWS cli package
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
-sudo unzip /tmp/awscliv2.zip
+cd /tmp && sudo unzip awscliv2.zip && cd -
 cd /tmp && sudo ./aws/install && cd -
 sudo rm -rf /tmp/awscliv2.zip
 
@@ -113,7 +113,7 @@ aws --region=ap-south-1 ssm get-parameter --name "/visualpathtech/env_file" --wi
 sudo pm2 start server.js
 
 # Setup webserver for ReactJS app
-sudo echo "server {
+sudo -i && echo "server {
         listen 80 default_server;
         listen [::]:80 default_server;
 
