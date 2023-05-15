@@ -83,6 +83,7 @@ npm install node-sass --ignore-scripts
 npm install 2>/dev/null
 npm run build
 sudo mv build/* /var/www/html
+sudo mv .env /var/www/html
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
