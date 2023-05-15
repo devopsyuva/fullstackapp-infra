@@ -19,17 +19,6 @@ resource "aws_lb" "app_alb" {
 
 }
 
-
-#resource "aws_lb_listener_certificate" "app_rjs_cert" {
-#  listener_arn    = aws_lb_listener.rjs_listener.arn
-#  certificate_arn = "arn:aws:acm:ap-south-1:099730796456:certificate/3ada7a31-2dd8-400c-b2ee-10181c0188ae"
-#}
-
-#resource "aws_lb_listener_certificate" "app_njs_cert" {
-#  listener_arn    = aws_lb_listener.njs_listener.arn
-#  certificate_arn = "arn:aws:acm:ap-south-1:099730796456:certificate/3ada7a31-2dd8-400c-b2ee-10181c0188ae"
-#}
-
 resource "aws_lb_listener" "redirect_listener" {
   load_balancer_arn = aws_lb.app_alb.arn
   port              = "80"
