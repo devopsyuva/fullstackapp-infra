@@ -97,7 +97,7 @@ sudo apt update -qq
 sudo apt install -qq -y ruby-full
 sudo apt install -qq -y wget
 
-wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
 sudo chmod +x /tmp/install
 cd /tmp && sudo ./install auto && cd -
 
