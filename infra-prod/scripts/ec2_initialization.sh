@@ -104,16 +104,14 @@ cd /tmp && sudo unzip awscliv2.zip && cd -
 cd /tmp && sudo ./aws/install && cd -
 sudo rm -rf /tmp/awscliv2.zip
 
-# Update cronjob for root user
-sudo echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
-
 # Start NodeJS using PM2 tool
+sudo -i
 cd /root/vpt-elearning-back-end/
 aws --region=ap-south-1 ssm get-parameter --name "/visualpathtech/env_file" --with-decryption --output text --query Parameter.Value > .env
-sudo pm2 start server.js
+pm2 start server.js
 
 # Setup webserver for ReactJS app
-sudo -i && echo "server {
+echo "server {
         listen 80 default_server;
         listen [::]:80 default_server;
 
@@ -125,10 +123,13 @@ sudo -i && echo "server {
         server_name _;
 
         location / {
-                try_files $uri /index.html;
+                try_files \$uri /index.html;
         }
 }" > /etc/nginx/sites-available/default
 
 # Enable and restart nginx
-sudo systemctl enabe nginx
-sudo systemctl restart nginx
+systemctl enable nginx
+systemctl restart nginx
+
+# Update cronjob for root user
+echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
