@@ -9,6 +9,9 @@ sudo apt update -qq && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -qq -y
 # Install unzip package for AWS package
 sudo apt install -qq -y unzip
 
+# Install Nginx webserver for ReactJS
+sudo apt install -qq -y nginx
+
 # Install basic packages for Nodejs and Reactjs application
 sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
