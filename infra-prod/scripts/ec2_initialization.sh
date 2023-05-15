@@ -82,6 +82,7 @@ cd /root/vpt-elearning-front-end/
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
 npm run build
+sudo mv build/* /var/www/html
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
@@ -91,7 +92,7 @@ sudo apt install -qq -y wget
 
 wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
 sudo chmod +x /tmp/install
-sudo ./tmp/install auto > /tmp/codedeploy_agent_logfile
+cd /tmp && sudo ./install auto > /tmp/codedeploy_agent_logfile && cd -
 
 sudo systemctl enable codedeploy-agent
 sudo systemctl start codedeploy-agent
@@ -99,7 +100,7 @@ sudo systemctl start codedeploy-agent
 # Install Latest AWS cli package
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 sudo unzip /tmp/awscliv2.zip
-sudo ./tmp/aws/install
+cd /tmp && sudo ./aws/install && cd -
 sudo rm -rf /tmp/awscliv2.zip
 
 # Update cronjob for root user
