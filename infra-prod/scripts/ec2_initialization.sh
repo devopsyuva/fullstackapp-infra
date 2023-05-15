@@ -6,27 +6,19 @@ echo $(dpkg -l | grep "linux-image-$(uname -r)*" | awk '{print $2}') hold | dpkg
 # update apt index and upgrade all packages to latest version
 sudo apt update -qq && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -qq -y
 
-# Install unzip package for AWS package
-sudo apt install -qq -y unzip
-
-# Install Nginx webserver for ReactJS
-sudo apt install -qq -y nginx
+# Install unzip package for AWS package and Ngix webserver
+sudo apt install -qq -y unzip nginx
+sudo rm -rf /var/www/html/*
 
 # Install basic packages for Nodejs and Reactjs application
 sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
-
-# Check NodeJS version
-node -v
 
 # Upgrade NPM package
 sudo npm install -g npm@latest
 
 # Install PM2 for NodeJS
 sudo npm install pm2 -g
-
-# Check NPM version
-npm -v
 
 echo "-----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
@@ -89,18 +81,7 @@ cd /root/vpt-elearning-front-end/
 # Install ReactJS packages
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
-
-sudo echo "[Unit]
-Description=Reactjs Visualpath Project
-After=syslog.target network.target
-[Service]
-Type=simple
-Restart=always
-RestartSec=1
-ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-front-end start
-User=root
-[Install]
-WantedBy=multi-user.target" > /etc/systemd/system/reactjsprod.service
+npm run build
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
@@ -108,22 +89,18 @@ sudo apt update -qq
 sudo apt install -qq -y ruby-full
 sudo apt install -qq -y wget
 
-wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
-chmod +x ./install
-sudo ./install auto > /tmp/codedeploy_agent_logfile
+wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+sudo chmod +x /tmp/install
+sudo ./tmp/install auto > /tmp/codedeploy_agent_logfile
 
 sudo systemctl enable codedeploy-agent
 sudo systemctl start codedeploy-agent
 
-# Start and enable ReactJS service
-sudo systemctl enable reactjsprod.service
-sudo systemctl start reactjsprod.service || sudo systemctl restart reactjsprod.service
-
 # Install Latest AWS cli package
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-rm -rf awscliv2.zip
+sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+sudo unzip /tmp/awscliv2.zip
+sudo ./tmp/aws/install
+sudo rm -rf /tmp/awscliv2.zip
 
 # Update cronjob for root user
 sudo echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
@@ -132,3 +109,24 @@ sudo echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/cronta
 cd /root/vpt-elearning-back-end/
 aws --region=ap-south-1 ssm get-parameter --name "/visualpathtech/env_file" --with-decryption --output text --query Parameter.Value > .env
 sudo pm2 start server.js
+
+# Setup webserver for ReactJS app
+sudo echo "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files $uri /index.html;
+        }
+}" > /etc/nginx/sites-available/default
+
+# Enable and restart nginx
+sudo systemctl enabe nginx
+sudo systemctl restart nginx
