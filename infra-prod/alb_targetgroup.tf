@@ -1,6 +1,6 @@
 resource "aws_lb_target_group" "app_rjs_tg" {
   name                          = "${var.rjs_targetgroup_name}"
-  port                          = 3000
+  port                          = 80
   protocol                      = "HTTP"
   target_type                   = "instance"
   ip_address_type               = "ipv4"
