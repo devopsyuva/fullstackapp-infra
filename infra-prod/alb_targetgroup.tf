@@ -17,6 +17,10 @@ resource "aws_lb_target_group" "app_rjs_tg" {
     timeout             = 5
     unhealthy_threshold = 2
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_lb_target_group" "app_njs_tg" {
@@ -37,5 +41,9 @@ resource "aws_lb_target_group" "app_njs_tg" {
     protocol            = "HTTP"
     timeout             = 5
     unhealthy_threshold = 2
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
