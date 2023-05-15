@@ -31,7 +31,7 @@ variable "psql_keypair" {
 variable "nlb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "TDPyuva-psql-nlb"
+  default     = "tdpyuva-psql-nlb"
 }
 
 variable "nlb_targetgroup_name" {

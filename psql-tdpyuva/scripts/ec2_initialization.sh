@@ -85,7 +85,7 @@ pg_dump -h 127.0.0.1 -U postgres -d ${db_name} > /backups/full-backup-$(date +%F
 # Push latest backup to s3 bucket TDPyuva DB backups
 echo "Initiated backup upload to s3 bucket...."
 latest_backup=$(ls -lrt /backups/*.sql | tail -n-1 | awk '{print $9}')
-aws s3 cp /backups/${latest_backup} s3://visualpathbackups/tdpyuva/db/
+aws s3 cp ${latest_backup} s3://visualpathbackups/tdpyuva/db/
 echo "Successfully uploaded....."
 EOF
 
