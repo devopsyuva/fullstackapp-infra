@@ -21,7 +21,7 @@ node -v
 sudo npm install -g npm@latest
 
 # Install PM2 for NodeJS
-sudo npm install pm2 -g
+# sudo npm install pm2 -g
 
 # Check NPM version
 npm -v
@@ -87,9 +87,9 @@ cd /root/vpt-elearning-front-end/
 # Install ReactJS packages
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
-npm run build
-sudo mv build/* /var/www/html
-sudo mv .env /var/www/html
+# npm run build
+# sudo mv build/* /var/www/html
+# sudo mv .env /var/www/html
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
@@ -114,7 +114,19 @@ sudo rm -rf /tmp/awscliv2.zip
 sudo -i
 cd /root/vpt-elearning-back-end/
 aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/env_file" --with-decryption --output text --query Parameter.Value > .env
-pm2 start server.js
+# pm2 start server.js
+
+sudo echo "[Unit]
+Description=Nodejs Visualpath Project
+After=syslog.target network.target
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-back-end start
+User=root
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/nodejs.service
 
 # Setup webserver for ReactJS app
 echo "server {
@@ -136,6 +148,10 @@ echo "server {
 # Enable and restart nginx
 systemctl enable nginx
 systemctl restart nginx
+
+# Enable and start NodeJS service
+systemctl enable nodejs
+systemctl start nodejs
 
 # Update cronjob for root user
 echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
