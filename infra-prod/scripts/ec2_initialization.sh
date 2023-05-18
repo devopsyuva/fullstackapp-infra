@@ -87,9 +87,9 @@ cd /root/vpt-elearning-front-end/
 # Install ReactJS packages
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
-# npm run build
-# sudo mv build/* /var/www/html
-# sudo mv .env /var/www/html
+npm run build
+sudo cp -r build/* /var/www/html
+sudo cp -r .env /var/www/html
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
