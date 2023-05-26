@@ -11,7 +11,7 @@ resource "aws_iam_policy" "psql_policy" {
             ],
             "Effect": "Allow",
             "Resource": "*",
-            "Sid": "TechSystemManagerDescParams"
+            "Sid": "TDPyuvaDescParams"
         },
         {
             "Action": [
@@ -20,7 +20,7 @@ resource "aws_iam_policy" "psql_policy" {
             ],
             "Effect": "Allow",
             "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/tdpyuva*",
-            "Sid": "TechSystemManagerGetParams"
+            "Sid": "TDPyuvaGetParams"
         },
         {
             "Sid": "AllowListBuckets",
@@ -34,7 +34,7 @@ resource "aws_iam_policy" "psql_policy" {
             ]
         },
         {
-            "Sid": "AllowStatement2B",
+            "Sid": "AllowTDPyuvaFolderAccess",
             "Action": [
                 "s3:ListBucket"
             ],
@@ -46,7 +46,8 @@ resource "aws_iam_policy" "psql_policy" {
                 "StringEquals": {
                     "s3:prefix": [
                         "",
-                        "tdpyuva"
+                        "tdpyuva/",
+                        "tdpyuva/db"
                     ],
                     "s3:delimiter": [
                         "/"
@@ -56,13 +57,31 @@ resource "aws_iam_policy" "psql_policy" {
         },
         {
             "Action": [
+                "s3:ListBucket"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "tdpyuva/db/*"
+                    ]
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::visualpathbackups"
+            ],
+            "Sid": "AllowTDPyuvaDBFolderAccess"
+        },
+        {
+            "Action": [
                 "s3:GetObject",
                 "s3:GetObjectVersion",
-                "s3:PutObject"
+                "s3:PutObject",
+                "s3:DeleteObject"
             ],
             "Effect": "Allow",
             "Resource": "arn:aws:s3:::visualpathbackups/tdpyuva/db/*",
-            "Sid": "TDPyuvaDBbackup"
+            "Sid": "AllowActionsDBFolder"
         }
     ],
     Version: "2012-10-17"

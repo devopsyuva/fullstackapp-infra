@@ -27,7 +27,8 @@ rm -rf awscliv2.zip
 aws --version
 
 #Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html#iam-policy-ex3
-aws s3 cp s3://visualpathbackups/tdpyuva/db/full-backup-2023-05-08_07:47.sql /tmp/initial_db_backup || exit 1
+export latest_s3_db=$(aws s3 ls s3://visualpathbackups/tdpyuva/db/ --recursive | sort | tail -n-1 | awk '{print $4}' | awk -F'/' '{print $3}') || exit 1
+aws s3 cp s3://visualpathbackups/tdpyuva/db/${latest_s3_db} /tmp/initial_db_backup || exit 1
 
 set +xe
 #Pull DB secrets from SSM
@@ -74,20 +75,34 @@ sudo systemctl enable postgresql.service
 [ -d /backups ] || sudo mkdir /backups
 sudo cat <<'EOF' >> /backups/psql_full_backup.sh
 #!/bin/bash
+
 set -xe
+
 db_name="tdpyuvaprod"
+
 # Perfrom full backup of visualpathtech database
-echo "Initializing full backup of $db_name database...."
+echo "Initializing full DB backup of $db_name...."
 set +xe
+
 export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/db_password" --with-decryption --output text --query Parameter.Value)
 set -xe
+
 pg_dump -h 127.0.0.1 -U postgres -d ${db_name} > /backups/full-backup-$(date +%F_%R).sql || echo "Backup failed..."
+
 # Push latest backup to s3 bucket TDPyuva DB backups
+echo "Delete old backups"
+find /backups/ -mtime +3 -type f -iname "*.sql" -exec rm {} \;
+
 echo "Initiated backup upload to s3 bucket...."
 latest_backup=$(ls -lrt /backups/*.sql | tail -n-1 | awk '{print $9}')
+
 aws s3 cp ${latest_backup} s3://visualpathbackups/tdpyuva/db/
 echo "Successfully uploaded....."
+
+aws s3 sync --delete /backups/ s3://visualpathbackups/tdpyuva/db/ --include "*.sql" --exclude "*.sh"
 EOF
 
+# Set execute permissions for the script and push to crontab under root user
 sudo chmod +x /backups/psql_full_backup.sh
-echo "0 2 * * * bash /backups/psql_full_backup.sh" | sudo tee /etc/cron.daily/psql_backup
+sudo -i
+(crontab -l 2>/dev/null; echo "0 3 * * * bash /backups/psql_full_backup.sh") | crontab -
