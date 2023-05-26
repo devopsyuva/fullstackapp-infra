@@ -7,7 +7,8 @@ echo $(dpkg -l | grep "linux-image-$(uname -r)*" | awk '{print $2}') hold | dpkg
 sudo apt update -qq && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -qq -y
 
 # Install unzip package for AWS package
-sudo apt install -qq -y unzip
+sudo apt install -qq -y unzip nginx
+sudo rm -rf /var/www/html/*
 
 # Install basic packages for Nodejs and Reactjs application
 sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
@@ -18,9 +19,6 @@ node -v
 
 # Upgrade NPM package
 sudo npm install -g npm@latest
-
-# Install PM2 for NodeJS
-sudo npm install pm2 -g
 
 # Check NPM version
 npm -v
@@ -80,24 +78,14 @@ cd /root/vpt-elearning-back-end/
 # Install NodesJS packages
 npm install 2>/dev/null
 
-
 cd /root/vpt-elearning-front-end/
 
 # Install ReactJS packages
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
-
-sudo echo "[Unit]
-Description=Reactjs Visualpath Project
-After=syslog.target network.target
-[Service]
-Type=simple
-Restart=always
-RestartSec=1
-ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-front-end start
-User=root
-[Install]
-WantedBy=multi-user.target" > /etc/systemd/system/reactjsprod.service
+npm run build
+sudo cp -r build/* /var/www/html
+sudo cp -r .env /var/www/html
 
 # Install the CodeDeploy agent on Ubuntu Server
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
@@ -112,10 +100,6 @@ sudo ./install auto > /tmp/codedeploy_agent_logfile
 sudo systemctl enable codedeploy-agent
 sudo systemctl start codedeploy-agent
 
-# Start and enable ReactJS service
-sudo systemctl enable reactjsprod.service
-sudo systemctl start reactjsprod.service || sudo systemctl restart reactjsprod.service
-
 #Install Latest AWS cli package
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -125,4 +109,43 @@ rm -rf awscliv2.zip
 # Start NodeJS using PM2 tool
 cd /root/vpt-elearning-back-end/
 aws --region=ap-south-1 ssm get-parameter --name "/brsyuva/env_file" --with-decryption --output text --query Parameter.Value > .env
-sudo pm2 start server.js
+
+sudo echo "[Unit]
+Description=Nodejs Visualpath Project
+After=syslog.target network.target
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-back-end start
+User=root
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/nodejs.service
+
+# Setup webserver for ReactJS app
+echo "server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files \$uri /index.html;
+        }
+}" > /etc/nginx/sites-available/default
+
+# Enable and restart nginx
+systemctl enable nginx
+systemctl restart nginx
+
+# Enable and start NodeJS service
+systemctl enable nodejs
+systemctl start nodejs
+
+# Update cronjob for root user
+echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
