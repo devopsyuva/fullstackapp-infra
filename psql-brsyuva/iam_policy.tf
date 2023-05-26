@@ -55,7 +55,6 @@ resource "aws_iam_policy" "psql_policy" {
                 }
             }
         },
-        ,
         {
             "Action": [
                 "s3:ListBucket"
