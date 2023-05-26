@@ -34,7 +34,7 @@ resource "aws_iam_policy" "psql_policy" {
             ]
         },
         {
-            "Sid": "AllowStatement2B",
+            "Sid": "AllowBRSyuvaDBFolderAccess",
             "Action": [
                 "s3:ListBucket"
             ],
@@ -46,7 +46,8 @@ resource "aws_iam_policy" "psql_policy" {
                 "StringEquals": {
                     "s3:prefix": [
                         "",
-                        "brsyuva"
+                        "brsyuva/",
+                        "brsyuva/db"
                     ],
                     "s3:delimiter": [
                         "/"
@@ -54,14 +55,34 @@ resource "aws_iam_policy" "psql_policy" {
                 }
             }
         },
+        ,
+        {
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "brsyuva/db/*"
+                    ]
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::visualpathbackups"
+            ],
+            "Sid": "AllowBRSyuvaDBAccess"
+        },
         {
             "Action": [
                 "s3:GetObject",
-                "s3:GetObjectVersion"
+                "s3:GetObjectVersion",
+                "s3:PutObject",
+                "s3:DeleteObject"
             ],
             "Effect": "Allow",
             "Resource": "arn:aws:s3:::visualpathbackups/brsyuva/db/*",
-            "Sid": "BRSyuvaDBbackup"
+            "Sid": "BRSyuvaUploadBackups"
         }
     ],
     Version: "2012-10-17"
