@@ -70,8 +70,8 @@ sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 cd /root
 
 # clone repo for backend application
-git clone -b brs-yuva --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git
-git clone -b brs-yuva --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git
+git clone -b tdp-yuva --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git
+git clone -b tdp-yuva --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git
 
 cd /root/vpt-elearning-back-end/
 
