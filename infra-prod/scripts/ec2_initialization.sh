@@ -67,36 +67,29 @@ sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 cd /root
 
 # clone repo for backend application
-git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git
-git clone -b vpt-prod --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git
+git clone -b main --single-branch git@github.com:visualpathtech/vpt-frontend.git
+git clone -b main --single-branch git@github.com:visualpathtech/vpt-backend.git
 
-cd /root/vpt-elearning-back-end/
-
-# Install NodesJS packages
-npm install 2>/dev/null
-
-
-cd /root/vpt-elearning-front-end/
+# Application build process for vpt-frontend
+cd /root/vpt-frontend/
+aws --region=ap-south-1 ssm get-parameter --name "/visualpathtech/env" --with-decryption --output text --query Parameter.Value > .env
 
 # Install ReactJS packages
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
 npm run build
-sudo mv build/* /var/www/html
-sudo mv .env /var/www/html
+sudo cp -r build/* /var/www/html/
 
-# Install the CodeDeploy agent on Ubuntu Server
+# Application build process for vpt-backend
+cd /root/vpt-backend/
+
+# Install NodesJS packages
+npm install 2>/dev/null
+
 # Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
 sudo apt update -qq
 sudo apt install -qq -y ruby-full
 sudo apt install -qq -y wget
-
-wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
-sudo chmod +x /tmp/install
-cd /tmp && sudo ./install auto && cd -
-
-sudo systemctl enable codedeploy-agent
-sudo systemctl start codedeploy-agent
 
 # Install Latest AWS cli package
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
@@ -106,9 +99,8 @@ sudo rm -rf /tmp/awscliv2.zip
 
 # Start NodeJS using PM2 tool
 sudo -i
-cd /root/vpt-elearning-back-end/
+cd /root/vpt-backend/
 aws --region=ap-south-1 ssm get-parameter --name "/visualpathtech/env_file" --with-decryption --output text --query Parameter.Value > .env
-pm2 start server.js
 
 # Setup webserver for ReactJS app
 echo "server {
@@ -130,6 +122,14 @@ echo "server {
 # Enable and restart nginx
 systemctl enable nginx
 systemctl restart nginx
+
+# Install the CodeDeploy agent on Ubuntu Server
+wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+sudo chmod +x /tmp/install
+cd /tmp && sudo ./install auto && cd -
+
+sudo systemctl enable codedeploy-agent
+sudo systemctl start codedeploy-agent
 
 # Update cronjob for root user
 echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
