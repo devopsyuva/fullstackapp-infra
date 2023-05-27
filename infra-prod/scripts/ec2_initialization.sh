@@ -73,36 +73,8 @@ sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 cd /root
 
 # clone repo for backend application
-git clone -b tdp-yuva --single-branch git@github.com:fullstack369/vpt-elearning-back-end.git
-git clone -b tdp-yuva --single-branch git@github.com:fullstack369/vpt-elearning-front-end.git
-
-cd /root/vpt-elearning-back-end/
-
-# Install NodesJS packages
-npm install 2>/dev/null
-
-
-cd /root/vpt-elearning-front-end/
-
-# Install ReactJS packages
-npm install node-sass --ignore-scripts
-npm install 2>/dev/null
-npm run build
-sudo cp -r build/* /var/www/html
-sudo cp -r .env /var/www/html
-
-# Install the CodeDeploy agent on Ubuntu Server
-# Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
-sudo apt update -qq
-sudo apt install -qq -y ruby-full
-sudo apt install -qq -y wget
-
-wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
-sudo chmod +x /tmp/install
-cd /tmp && sudo ./install auto && cd -
-
-sudo systemctl enable codedeploy-agent
-sudo systemctl start codedeploy-agent
+git clone -b main --single-branch git@github.com:visualpathtech/tdpyuva-backend.git
+git clone -b main --single-branch git@github.com:visualpathtech/tdpyuva-frontend.git
 
 #Install Latest AWS cli package
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
@@ -110,20 +82,28 @@ cd /tmp && sudo unzip awscliv2.zip && cd -
 cd /tmp && sudo ./aws/install && cd -
 sudo rm -rf /tmp/awscliv2.zip
 
-# Start NodeJS using PM2 tool
-sudo -i
-cd /root/vpt-elearning-back-end/
-aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/env_file" --with-decryption --output text --query Parameter.Value > .env
-# pm2 start server.js
+# Install ReactJS packages and configure Nginx with build files
+cd /root/tdpyuva-frontend/
+npm install node-sass --ignore-scripts
+npm install 2>/dev/null
+npm run build
+sudo cp -r build/* /var/www/html/
+aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/frontend_env" --with-decryption --output text --query Parameter.Value > /var/www/html/.env
 
-sudo echo "[Unit]
-Description=Nodejs Visualpath Project
+# Install NodeJS packages
+cd /root/tdpyuva-backend/
+npm install 2>/dev/null
+aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/backend_env" --with-decryption --output text --query Parameter.Value > .env
+
+sudo -i
+echo "[Unit]
+Description=Nodejs TDPyuva Project
 After=syslog.target network.target
 [Service]
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/npm --prefix /root/vpt-elearning-back-end start
+ExecStart=/usr/bin/npm --prefix /root/tdpyuva-backend start
 User=root
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/nodejs.service
@@ -152,6 +132,19 @@ systemctl restart nginx
 # Enable and start NodeJS service
 systemctl enable nodejs
 systemctl start nodejs
+
+# Install the CodeDeploy agent on Ubuntu Server
+# Reference: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
+apt update -qq
+apt install -qq -y ruby-full
+apt install -qq -y wget
+
+wget -O /tmp/install https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install
+sudo chmod +x /tmp/install
+cd /tmp && sudo ./install auto && cd -
+
+systemctl enable codedeploy-agent
+systemctl start codedeploy-agent
 
 # Update cronjob for root user
 echo "0 2 * * * echo 3 > /proc/sys/vm/drop_caches" > /var/spool/cron/crontabs/root
