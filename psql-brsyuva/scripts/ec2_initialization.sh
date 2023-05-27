@@ -23,7 +23,7 @@ unzip awscliv2.zip
 sudo ./aws/install
 rm -rf awscliv2.zip
 
-#check aws version installed
+#check aws version
 aws --version
 
 #Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html#iam-policy-ex3
