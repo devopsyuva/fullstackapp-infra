@@ -97,7 +97,7 @@ aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/backend_env" --with-d
 
 sudo -i
 echo "[Unit]
-Description=Nodejs TDPyuva Project
+Description=Nodejs TDPyuva APP Project
 After=syslog.target network.target
 [Service]
 Type=simple
