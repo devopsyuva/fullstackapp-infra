@@ -89,11 +89,17 @@ export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/visualpat
 set -xe
 pg_dump -h 127.0.0.1 -U postgres -d ${db_name} > /backups/full-backup-$(date +%F_%R).sql || echo "Backup failed..."
 
-# Push latest backup to s3 bucket visualpathbackups
+# Push latest backup to s3 bucket VisualpathTech DB backups
+echo "Delete old backups"
+find /backups/ -mtime +3 -type f -iname "*.sql" -exec rm {} \;
+
 echo "Initiated backup upload to s3 bucket...."
 latest_backup=$(ls -lrt /backups/*.sql | tail -n-1 | awk '{print $9}')
+
 aws s3 cp ${latest_backup} s3://visualpathbackups/visualpathtech/db/
 echo "Successfully uploaded....."
+
+aws s3 sync --delete /backups/ s3://visualpathbackups/visualpathtech/db/ --include "*.sql" --exclude "*.sh"
 EOF
 
 sudo chmod +x /backups/psql_full_backup.sh
