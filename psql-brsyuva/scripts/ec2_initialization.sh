@@ -78,7 +78,7 @@ sudo cat <<'EOF' >> /backups/psql_full_backup.sh
 
 set -xe
 
-db_name="brsyubaprod"
+db_name="brsyuvaprod"
 
 # Perfrom full backup of BRSyuva database
 echo "Initializing full DB backup of $db_name...."
