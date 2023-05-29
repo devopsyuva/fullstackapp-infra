@@ -11,6 +11,7 @@ sudo apt install -qq -y unzip nginx
 sudo rm -rf /var/www/html/*
 
 # Install basic packages for Nodejs and Reactjs application
+# https://nodejs.org/en/download
 sudo curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 
@@ -70,8 +71,8 @@ sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 cd /root
 
 # clone repo for backend application
-git clone -b main --single-branch git@github.com:visualpathtech/tdpyuva-backend.git
-git clone -b main --single-branch git@github.com:visualpathtech/tdpyuva-frontend.git
+git clone -b brsyuva --single-branch git@github.com:visualpathtech/tdpyuva-backend.git
+git clone -b brsyuva --single-branch git@github.com:visualpathtech/tdpyuva-frontend.git
 
 #Install Latest AWS cli package
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
