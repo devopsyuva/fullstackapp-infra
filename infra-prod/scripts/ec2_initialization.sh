@@ -21,9 +21,6 @@ node -v
 # Upgrade NPM package
 sudo npm install -g npm@latest
 
-# Check NPM version
-npm -v
-
 echo "-----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
 NhAAAAAwEAAQAAAYEAxkGe6E6JIctNmw87KGKOZAZHznB3q9l9XpgMMm3usKEHmd8jav5M
