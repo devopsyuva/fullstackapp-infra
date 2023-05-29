@@ -46,7 +46,8 @@ resource "aws_iam_policy" "psql_policy" {
                 "StringEquals": {
                     "s3:prefix": [
                         "",
-                        "visualpathtech"
+                        "visualpathtech/",
+                        "visualpathtech/db"
                     ],
                     "s3:delimiter": [
                         "/"
@@ -56,9 +57,27 @@ resource "aws_iam_policy" "psql_policy" {
         },
         {
             "Action": [
+                "s3:ListBucket"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "visualpathtech/db/*"
+                    ]
+                }
+            },
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::visualpathbackups"
+            ],
+            "Sid": "AllowTechDBAccess"
+        },
+        {
+            "Action": [
                 "s3:GetObject",
                 "s3:GetObjectVersion",
-                "s3:PutObject"
+                "s3:PutObject",
+                "s3:DeleteObject"
             ],
             "Effect": "Allow",
             "Resource": "arn:aws:s3:::visualpathbackups/visualpathtech/db/*",
