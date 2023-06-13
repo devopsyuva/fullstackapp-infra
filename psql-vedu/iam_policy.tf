@@ -11,7 +11,7 @@ resource "aws_iam_policy" "psql_policy" {
             ],
             "Effect": "Allow",
             "Resource": "*",
-            "Sid": "TDPyuvaDescParams"
+            "Sid": "VisualEduDescParams"
         },
         {
             "Action": [
@@ -19,8 +19,8 @@ resource "aws_iam_policy" "psql_policy" {
                 "ssm:GetParameter"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/tdpyuva*",
-            "Sid": "TDPyuvaGetParams"
+            "Resource": "arn:aws:ssm:ap-south-1:099730796456:parameter/visualedu*",
+            "Sid": "VisualEduGetParams"
         },
         {
             "Sid": "AllowListBuckets",
@@ -34,7 +34,7 @@ resource "aws_iam_policy" "psql_policy" {
             ]
         },
         {
-            "Sid": "AllowTDPyuvaFolderAccess",
+            "Sid": "AllowVisualEduFolderAccess",
             "Action": [
                 "s3:ListBucket"
             ],
@@ -46,8 +46,8 @@ resource "aws_iam_policy" "psql_policy" {
                 "StringEquals": {
                     "s3:prefix": [
                         "",
-                        "tdpyuva/",
-                        "tdpyuva/db"
+                        "visualedu/",
+                        "visualedu/db"
                     ],
                     "s3:delimiter": [
                         "/"
@@ -62,7 +62,7 @@ resource "aws_iam_policy" "psql_policy" {
             "Condition": {
                 "StringLike": {
                     "s3:prefix": [
-                        "tdpyuva/db/*"
+                        "visualedu/db/*"
                     ]
                 }
             },
@@ -70,7 +70,7 @@ resource "aws_iam_policy" "psql_policy" {
             "Resource": [
                 "arn:aws:s3:::visualpathbackups"
             ],
-            "Sid": "AllowTDPyuvaDBFolderAccess"
+            "Sid": "AllowVisualEduDBFolderAccess"
         },
         {
             "Action": [
@@ -80,7 +80,7 @@ resource "aws_iam_policy" "psql_policy" {
                 "s3:DeleteObject"
             ],
             "Effect": "Allow",
-            "Resource": "arn:aws:s3:::visualpathbackups/tdpyuva/db/*",
+            "Resource": "arn:aws:s3:::visualpathbackups/visualedu/db/*",
             "Sid": "AllowActionsDBFolder"
         }
     ],
