@@ -1,11 +1,11 @@
-name: 'Visualpath TDPyuva PSQL DB'
+name: 'Visualpath EDU PSQL DB'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
   push:
-    branches: [ "tdpyuva-psql" ]
+    branches: [ "vedu-psql" ]
   pull_request:
-    branches: [ "tdpyuva-psql" ]
+    branches: [ "vedu-psql" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
     if: ${{ success() && contains(github.event.head_commit.message, 'terraform_apply psql') || contains(github.event.head_commit.message, 'terraform_apply all') }}
 
-    name: TDPyuva PSQL infra
+    name: VPTEdu PSQL infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -45,10 +45,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Setup ALB and ASG for TDPyuva PSQL DB Production environment
+      - name: Setup ALB and ASG for VPTEdu PSQL DB Production environment
         run: |
           echo `pwd`
-          cd psql-tdpyuva/
+          cd psql-vedu/
           echo "ALB and ASG: Initialize Terraform"
           terraform init || terraform init -reconfigure
 

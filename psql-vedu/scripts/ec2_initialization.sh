@@ -27,13 +27,13 @@ rm -rf awscliv2.zip
 aws --version
 
 #Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html#iam-policy-ex3
-export latest_s3_db=$(aws s3 ls s3://visualpathbackups/tdpyuva/db/ --recursive | sort | tail -n-1 | awk '{print $4}' | awk -F'/' '{print $3}') || exit 1
-aws s3 cp s3://visualpathbackups/tdpyuva/db/${latest_s3_db} /tmp/initial_db_backup || exit 1
+export latest_s3_db=$(aws s3 ls s3://visualpathbackups/visualedu/db/ --recursive | sort | tail -n-1 | awk '{print $4}' | awk -F'/' '{print $3}') || exit 1
+aws s3 cp s3://visualpathbackups/visualedu/db/${latest_s3_db} /tmp/initial_db_backup || exit 1
 
 set +xe
 #Pull DB secrets from SSM
-export PSQL_DBNAME=$(aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/db_name" --with-decryption --output text --query Parameter.Value)
-export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/db_password" --with-decryption --output text --query Parameter.Value)
+export PSQL_DBNAME=$(aws --region=ap-south-1 ssm get-parameter --name "/visualedu/db_name" --with-decryption --output text --query Parameter.Value)
+export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/visualedu/db_password" --with-decryption --output text --query Parameter.Value)
 #Reference: https://www.postgresql.org/docs/current/libpq-envars.html
 #Reference: https://stackoverflow.com/questions/48226592/aws-ssm-get-parameter-rsa-key-output-to-file
 
@@ -44,7 +44,7 @@ sudo su - postgres bash -c "psql -c \"ALTER DATABASE ${PSQL_DBNAME} OWNER TO pos
 sudo su - postgres bash -c "psql -c \"ALTER USER postgres PASSWORD '${PGPASSWORD}';\""
 
 #Initiate the backup restore
-export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/db_password" --with-decryption --output text --query Parameter.Value)
+export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/visualedu/db_password" --with-decryption --output text --query Parameter.Value)
 psql -h 127.0.0.1 -U postgres -d ${PSQL_DBNAME} < /tmp/initial_db_backup
 
 # Install the CodeDeploy agent on Ubuntu Server
@@ -78,28 +78,28 @@ sudo cat <<'EOF' >> /backups/psql_full_backup.sh
 
 set -xe
 
-db_name="tdpyuvaprod"
+db_name="visualpatheduprod"
 
-# Perfrom full backup of visualpathtech database
+# Perfrom full backup of VisualpathEdu database
 echo "Initializing full DB backup of $db_name...."
 set +xe
 
-export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/db_password" --with-decryption --output text --query Parameter.Value)
+export PGPASSWORD=$(aws --region=ap-south-1 ssm get-parameter --name "/visualedu/db_password" --with-decryption --output text --query Parameter.Value)
 set -xe
 
 pg_dump -h 127.0.0.1 -U postgres -d ${db_name} > /backups/full-backup-$(date +%F_%R).sql || echo "Backup failed..."
 
-# Push latest backup to s3 bucket TDPyuva DB backups
+# Push latest backup to s3 bucket VisualpathEdu DB backups
 echo "Delete old backups"
 find /backups/ -mtime +3 -type f -iname "*.sql" -exec rm {} \;
 
 echo "Initiated backup upload to s3 bucket...."
 latest_backup=$(ls -lrt /backups/*.sql | tail -n-1 | awk '{print $9}')
 
-aws s3 cp ${latest_backup} s3://visualpathbackups/tdpyuva/db/
+aws s3 cp ${latest_backup} s3://visualpathbackups/visualedu/db/
 echo "Successfully uploaded....."
 
-aws s3 sync --delete /backups/ s3://visualpathbackups/tdpyuva/db/ --include "*.sql" --exclude "*.sh"
+aws s3 sync --delete /backups/ s3://visualpathbackups/visualedu/db/ --include "*.sql" --exclude "*.sh"
 EOF
 
 # Set execute permissions for the script and push to crontab under root user

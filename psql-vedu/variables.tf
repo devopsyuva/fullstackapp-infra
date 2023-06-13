@@ -7,13 +7,13 @@ variable "aws_region" {
 variable "asg_name" {
   description = "Provide name for ASG to implement VisualpathTech app"
   type        = string
-  default     = "TDPyuva-PSQL-asg"
+  default     = "VPTEdu-PSQL-asg"
 }
 
 variable "psql_template_name" {
   description = "Provide name that to be assigned launch template"
   type        = string
-  default     = "TDPyuva-PSQL"
+  default     = "VPTEdu-PSQL"
 }
 
 variable "psql_launch_type" {
@@ -25,49 +25,49 @@ variable "psql_launch_type" {
 variable "psql_keypair" {
   description = "Keypair name assign EC2 instance, not managed through Terraform"
   type        = string
-  default     = "tdpyuva"
+  default     = "vptedu"
 }
 
 variable "nlb_name" {
   description = "Provide name that to be assigned for Frontend ALB"
   type        = string
-  default     = "tdpyuva-psql-nlb"
+  default     = "vptedu-psql-nlb"
 }
 
 variable "nlb_targetgroup_name" {
   description = "Provide ALB target group name"
   type        = string
-  default     = "TDPyuva-PSQL"
+  default     = "VPTEdu-PSQL"
 }
 
 variable "nlb_sg_name" {
   description = "Provide name to ALB security group"
   type        = string
-  default     = "TDPyuva-NLB-sg"
+  default     = "VPTEdu-NLB-sg"
 }
 
 variable "psql_sg_name" {
   description = "Provide name to EC2 attached security groups through ASG"
   type        = string
-  default     = "TDPyuva-PSQL-sg"
+  default     = "VPTEdu-PSQL-sg"
 }
 
 variable "psql_role_name" {
   description = "Provide IAM porfile role name"
   type        = string
-  default     = "TDPyuva-PSQL-role"
+  default     = "VPTEdu-PSQL-role"
 }
 
 variable "psql_profile_name" {
   description = "Provide Instance profile name"
   type        = string
-  default     = "TDPyuva-PSQL-profile"
+  default     = "VPTEdu-PSQL-profile"
 }
 
 variable "psql_policy_name" {
   description = "Provide role policy name"
   type        = string
-  default     = "TDPyuva-PSQL-policy"
+  default     = "VPTEdu-PSQL-policy"
 }
 
 locals {

@@ -1,11 +1,11 @@
-name: 'Visualpath TDPyuva PSQL Cleanup'
+name: 'Visualpath EDU PSQL Cleanup'
 
 on:
   # Triggers the workflow on push or pull request events but only for the "prod" branch
   push:
-    branches: [ "tdpyuva-psql" ]
+    branches: [ "vedu-psql" ]
   pull_request:
-    branches: [ "tdpyuva-psql" ]
+    branches: [ "vedu-psql" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
     # Reference: https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow
     if: ${{ success() && contains(github.event.head_commit.message, 'terraform_destroy psql') || contains(github.event.head_commit.message, 'terraform_destroy all') }}
 
-    name: Visualpath TDPyuva PSQL infra
+    name: VisualpathEdu PSQL infra
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: production
@@ -45,10 +45,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Destroy ALB and ASG for VisualpathTech PSQL DB Production environment
+      - name: Destroy ALB and ASG for VisualpathEdu PSQL DB Production environment
         run: |
           echo `pwd`
-          cd psql-tdpyuva/
+          cd psql-vedu/
           echo "ALB and ASG: Initialize Terraform"
           terraform init || terraform init -reconfigure
 
