@@ -73,8 +73,8 @@ sudo ssh-keyscan github.com >> ~/.ssh/known_hosts
 cd /root
 
 # clone repo for backend application
-git clone -b main --single-branch git@github.com:visualpathtech/tdpyuva-backend.git
-git clone -b main --single-branch git@github.com:visualpathtech/tdpyuva-frontend.git
+git clone -b main --single-branch git@github.com:visualpathtech/visualpathedu-frontend.git
+git clone -b main --single-branch git@github.com:visualpathtech/visualpathedu-backend.git
 
 #Install Latest AWS cli package
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
@@ -83,27 +83,27 @@ cd /tmp && sudo ./aws/install && cd -
 sudo rm -rf /tmp/awscliv2.zip
 
 # Install ReactJS packages and configure Nginx with build files
-cd /root/tdpyuva-frontend/
+cd /root/visualpathedu-frontend/
 npm install node-sass --ignore-scripts
 npm install 2>/dev/null
 npm run build
 sudo cp -r build/* /var/www/html/
-aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/frontend_env" --with-decryption --output text --query Parameter.Value > /var/www/html/.env
+aws --region=ap-south-1 ssm get-parameter --name "/visualedu/frontend_env" --with-decryption --output text --query Parameter.Value > /var/www/html/.env
 
 # Install NodeJS packages
-cd /root/tdpyuva-backend/
+cd /root/visualpathedu-backend/
 npm install 2>/dev/null
-aws --region=ap-south-1 ssm get-parameter --name "/tdpyuva/backend_env" --with-decryption --output text --query Parameter.Value > .env
+aws --region=ap-south-1 ssm get-parameter --name "/visualedu/backend_env" --with-decryption --output text --query Parameter.Value > .env
 
 sudo -i
 echo "[Unit]
-Description=Nodejs TDPyuva APP Project
+Description=Nodejs VPTEdu APP Project
 After=syslog.target network.target
 [Service]
 Type=simple
 Restart=always
 RestartSec=1
-ExecStart=/usr/bin/npm --prefix /root/tdpyuva-backend start
+ExecStart=/usr/bin/npm --prefix /root/visualpathedu-backend start
 User=root
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/nodejs.service
